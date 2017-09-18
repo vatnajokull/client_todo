@@ -1,0 +1,59 @@
+<div class="container">
+
+  <!-- navbar component -->
+  <div>
+    <acme-navbar creation-date="main.creationDate"></acme-navbar>
+  </div>
+
+  <!-- Sign in/out form and user signed in details -->
+  <div class="panel panel-default">
+    <div class="panel-heading">Sign in via email</div>
+    <div class="panel-body">
+
+      <label>user signed in?</label>
+      <p>{{ user.signedIn ? "true" : "false" }}</p>
+      <label>user email</label>
+      <p>{{ user.email || "n/a" }}</p>
+
+      <!-- sign in form -->
+      <form ng-submit="submitLogin(loginForm)" role="form" ng-init="loginForm = {}" ng-if="!user.signedIn">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" ng-model="loginForm.email" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" ng-model="loginForm.password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+
+      <!-- sign out button -->
+      <button class="btn btn-default" ng-click="signOut()" ng-if="user.signedIn">Sign out</button>
+
+    </div>
+  </div>
+
+  <!-- show lists data -->
+  <div class="panel panel-default">
+  <div class="panel-heading">List</div>
+  <!-- show lists data -->
+  <form ng-submit="createNewList(newListName)">
+    <input ng-model="newListName">
+  </form>
+
+    <div class="panel-body">
+      <ul ng-repeat="list in lists" ng-if="user.signedIn">
+        <li>{{ list.name }}
+          <button type="button" name="button" class="btn btn-group-xs" ng-click="removeList(list)">Delete</button>
+        </li>
+        <form ng-submit="editList(list, editedListName)">
+          <input ng-keyup="cancelEdit($event)" ng-model="editedListName" class="edit">
+        </form>
+      </ul>
+
+      <p ng-if="!user.signedIn">You must be signed in to request lists</p>
+    </div>
+  </div>
+
+</div>

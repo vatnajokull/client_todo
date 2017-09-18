@@ -26,6 +26,9 @@ function browserSyncInit(baseDir, browser) {
     routes: routes
   };
 
+  server.middleware = proxyMiddleware('/api', {target: 'http://localhost:3030', changeOrigin: true});
+
+
   /*
    * You can add a proxy to your backend by uncommenting the line below.
    * You just have to configure a context which will we redirected and the target url.
