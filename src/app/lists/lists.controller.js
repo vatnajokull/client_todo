@@ -25,11 +25,11 @@
         $scope.editedList = null;
         list.update();
       };
-
-      $scope.editList = function(list) {
-        $scope.editedListName = list.name;
-        $scope.editedList = list;
-      };
+      // 
+      // $scope.editList = function(list) {
+      //   $scope.editedListName = list.name;
+      //   $scope.editedList = list;
+      // };
 
       $scope.cancelEdit = function(event) {
         if (event.which === 27) {
