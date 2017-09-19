@@ -38,18 +38,21 @@
   <div class="panel panel-default">
   <div class="panel-heading">List</div>
   <!-- show lists data -->
-  <form ng-submit="createNewList(newListName)">
-    <input ng-model="newListName">
-  </form>
+  <div class="form-group">
+    <form ng-submit="createList(listName)">
+      <label for="">Create New List</label>
+      <input ng-model="listName" type="text" class="form-control" name="name" required>
+    </form>
+  </div>
 
     <div class="panel-body">
       <ul ng-repeat="list in lists" ng-if="user.signedIn">
         <li>{{ list.name }}
           <button type="button" name="button" class="btn btn-group-xs" ng-click="removeList(list)">Delete</button>
         </li>
-        <form ng-submit="editList(list, editedListName)">
+        <!-- <form ng-submit="editList(list, editedListName)">
           <input ng-keyup="cancelEdit($event)" ng-model="editedListName" class="edit">
-        </form>
+        </form> -->
       </ul>
 
       <p ng-if="!user.signedIn">You must be signed in to request lists</p>
