@@ -48,13 +48,22 @@
       <!-- show list data -->
       <div ng-repeat="list in lists" ng-if="user.signedIn" class="lists">
         <div class="list" id="{{list.id}}">
-          <h3>{{ list.name }}</h3>
+          <h3>{{ list.name }} |id:{{ list.id }}</h3>
           <a ng-click="removeList(list)" href="javascript:void(0)">
             <i class="fa fa-trash-o" aria-hidden="true"></i>
           </a>
           <a ng-click="open(list)" href="javascript:void(0)">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </a>
+          <ul ng-controller="TasksController as taskCtrl">
+            <!-- form for add new tasks to list -->
+            <div class="form-group">
+              <form ng-submit="taskCtrl.createTask(newTaskForm)" role="form" ng-init="newTaskForm = {listId: list.id}">
+                <!-- <input type="hidden" id="listId"  class="form-control" ng-model="newTaskForm.listId" value={{list.id}}> -->
+                <input type="text" id="title"  class="form-control" ng-model="newTaskForm.title" required>
+              </form>
+            <li></li>
+          </ul>
         </div>
       </div>
 
