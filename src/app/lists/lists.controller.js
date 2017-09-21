@@ -3,21 +3,44 @@
 
   angular
     .module('clientTodo')
-    .controller('ListsController', function($rootScope, $scope, $state, $stateParams, List) {
+    .controller('ListsController', function($rootScope, $scope, $state, $stateParams, List, $uibModal) {
 
-      // var vm = this;
+      var vm = this;
 
       // method to query the posts api and store the results in $scope
       // note: the linter will complain, but that can be fixed later:
       // You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"
 
-      $scope.createList = function(listName) {
+      $scope.open = function (editedList) {
+        var modalInstance = $uibModal.open({
+          templateUrl: "app/lists/edit_list.template.html",
+          controller: 'ModalInstanceController',
+          size: 'sm',
+          resolve: {
+            editedList: function () {
+              return editedList;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (list) {
+          vm.updateList(list);
+        }, function () {
+          // failure, for instance show alert, 'cancel' function
+        });
+      };
+
+      $scope.createList = function(newListForm) {
         var list = new List({
-          name: listName
+          name: newListForm.name
         });
         $scope.lists.push(list);
-        $scope.listName = '';
+        newListForm.name = '';
         list.create();
+      };
+
+      vm.updateList = function(list) {
+        list.update();
       };
 
       $scope.removeList = function(list) {
@@ -26,24 +49,6 @@
           $scope.lists.splice(index, 1);
         }
         list.delete();
-      };
-
-      $scope.updateList = function(list, name) {
-        list.name = name;
-        $scope.editedList = null;
-        list.update();
-      };
-
-      $scope.editList = function(list) {
-        $scope.editedListName = list.name;
-        $scope.editedList = list;
-      };
-
-      $scope.cancelEdit = function(event) {
-        if (event.which === 27) {
-          $scope.editedList = null;
-          $scope.editedListName = '';
-        }
       };
 
       var list_query = function(){

@@ -35,25 +35,28 @@
   </div>
 
   <!-- show lists data -->
-  <div class="panel panel-default">
+  <div class="panel panel-default" ng-if="user.signedIn">
   <div class="panel-heading">List</div>
-  <!-- show lists data -->
-  <div class="form-group">
-    <form ng-submit="createList(listName)">
-      <label for="">Create New List</label>
-      <input ng-model="listName" type="text" class="form-control" name="name" required>
-    </form>
-  </div>
-
     <div class="panel-body">
-      <ul ng-repeat="list in lists" ng-if="user.signedIn">
-        <li>{{ list.name }}
-          <button type="button" name="button" class="btn btn-group-xs" ng-click="removeList(list)">Delete</button>
-        </li>
-        <!-- <form ng-submit="editList(list, editedListName)">
-          <input ng-keyup="cancelEdit($event)" ng-model="editedListName" class="edit">
-        </form> -->
-      </ul>
+      <!-- form for add new list -->
+      <div class="form-group">
+        <form ng-submit="createList(newListForm)" role="form" ng-init="newListForm = {}">
+          <label for="name">Create New List</label>
+          <input type="text" id="name"  class="form-control" ng-model="newListForm.name" required autofocus>
+        </form>
+      </div>
+      <!-- show list data -->
+      <div ng-repeat="list in lists" ng-if="user.signedIn" class="lists">
+        <div class="list" id="{{list.id}}">
+          <h3>{{ list.name }}</h3>
+          <a ng-click="removeList(list)" href="javascript:void(0)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </a>
+          <a ng-click="open(list)" href="javascript:void(0)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
 
       <p ng-if="!user.signedIn">You must be signed in to request lists</p>
     </div>
