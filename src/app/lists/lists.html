@@ -55,16 +55,24 @@
           <a ng-click="open(list)" href="javascript:void(0)">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </a>
-          <ul ng-controller="TasksController as taskCtrl">
+          <div class="tasks" ng-controller="TasksController as tasksCtrl">
             <!-- form for add new tasks to list -->
             <div class="form-group">
-              <form ng-submit="taskCtrl.createTask(newTaskForm)" role="form" ng-init="newTaskForm = {listId: list.id}">
-                <!-- <input type="hidden" id="listId"  class="form-control" ng-model="newTaskForm.listId" value={{list.id}}> -->
+              <form ng-submit="tasksCtrl.createTask(newTaskForm)" role="form" ng-init="newTaskForm = {listId: list.id}">
                 <input type="text" id="title"  class="form-control" ng-model="newTaskForm.title" required>
               </form>
-            <li></li>
-          </ul>
-        </div>
+            </div>
+            <!-- list of tasks -->
+            <ul ng-init="tasks = tasksCtrl.getTasks(list.id)">
+              <h3>{{$scope.tasks}}</h3>
+              <li ng-repeat="task in tasks">
+                {{list.id}} | {{task.id}} | {{task.title}} | {{task.completed}} | {{task.deadline}} | {{task.position}}
+                <a ng-click="tasksCtrl.removeTask(task)" href="javascript:void(0)">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
       </div>
 
       <p ng-if="!user.signedIn">You must be signed in to request lists</p>

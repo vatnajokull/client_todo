@@ -8,8 +8,7 @@
         url: '/api/lists',
         name: 'list',
         serializer: railsSerializer(function () {
-          this.nestedAttribute('tasks');
-          this.resource('tasks', 'tasks');
+          this.resource('tasks', 'Task');
         })
 
       });
