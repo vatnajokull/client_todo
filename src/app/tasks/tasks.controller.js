@@ -8,6 +8,8 @@ angular
     vm.getTasks = getTasks;
     vm.removeTask = removeTask;
     vm.queryTask = queryTask;
+    vm.updateTask = updateTask;
+    vm.changePosition = changePosition;
 
     function createTask (newTaskForm) {
       var task = new Task({
@@ -25,6 +27,15 @@ angular
         $scope.tasks.splice(index, 1);
       }
       task.delete();
+    }
+
+    function changePosition (task, direction) {
+
+    }
+
+    function updateTask (task) {
+      console.log('tried to update ' + task);
+      task.update();
     }
 
     var tasks_query = function (listId) {

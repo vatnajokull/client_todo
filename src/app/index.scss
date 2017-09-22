@@ -27,6 +27,199 @@ $icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
   }
 }
 
+h1 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+.ui-datepicker {
+   z-index:1151 !important;
+}
+
+.list {
+  width: 60%;
+  display: table;
+  margin: 0 auto;
+  padding-bottom: 3em;
+  .header {
+    display: table;
+    width: 100%;
+    background: #4b7ab2;
+    &:hover {
+      .options {
+        .fa {
+          color: lightgray;
+        }
+        .fa-trash {
+          border-left: solid 1px lightgray;
+        }
+      }
+    }
+  }
+  .title {
+    width: 70%;
+    display: table-cell;
+    padding: 0 20px;
+    h3 {
+     display: inline-block;
+     padding: 0 0 0 15px;
+     color: white;
+   }
+   .fa {
+     font-size: 25px;
+     color: white;
+   }
+  }
+  .options {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    width: 30%;
+    .fa {
+      color: rgba(75, 122, 178, 1);
+      font-size: 20px;
+      padding: 0 5px;
+    }
+  }
+}
+
+p.title {
+  text-align: left;
+  color: white;
+  font-size: 25px;
+}
+
+i.fa.fa-trash, .fa-caret-up, .fa-caret-down, .fa-pencil {
+  border-left: solid 1px rgba(75, 122, 178, 1);
+}
+
+i.fa-plus {
+  font-size: 26px;
+  color: #589171;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+
+.task_form {
+  background: #D1D1D1;
+  display: table;
+  padding: 5px 15px 10px 15px;
+  width: 100%;
+  vertical-align: top;
+  input#task_name {
+    height: 34px;
+    width: 77%;
+    display: table-cell;
+  }
+  .btn .btn-success {
+    background: #589171;
+    border-color: #589171;
+  }
+}
+
+.tasks {
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  overflow: hidden;
+}
+
+.task {
+  display: table;
+  background: white;
+  color: #ACACAC;
+  width: 100%;
+  height: 40px;
+  border-top: #E7EBEA;
+  border-style: solid;
+  border-width: thin;
+  .checkbox {
+    display: table-cell;
+    width: 10%;
+    input {
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: auto;
+      display: block;
+    }
+  }
+  .info {
+    display: table-cell;
+    width: 60%;
+    vertical-align: middle;
+    font-size: 14px;
+    span {
+      color: #a56867;
+      float: right;
+      font-size: 12px;
+    }
+  }
+  .options {
+    display: table-cell;
+    width: 16%;
+    .fa.fa-trash,
+    .fa-caret-up,
+    .fa-caret-down,
+    .fa-pencil {
+      border-left: solid 1px white;
+      color: white;
+    }
+  }
+  &:hover {
+    background: #FCFED5;
+    .options {
+      .fa.fa-trash,
+      .fa-caret-up,
+      .fa-caret-down,
+      .fa-pencil {
+        border-left: solid 1px lightgray;
+        color: lightgray;
+      }
+    }
+  }
+}
+
+.task.completed {
+  background: rgba(221, 221, 221, 0.84);
+  text-decoration: line-through;
+  .fa.fa-trash {
+    border-left: none;
+    color: transparent;
+  }
+  &:hover {
+    .fa.fa-trash {
+      color: white;
+    }
+  }
+}
+
+div.modal-content {
+  padding: 20px;
+  display: block;
+  z-index: -1;
+}
+
+button.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.submit_form {
+  margin: 20px auto;
+  display: block;
+}
+
+a.btn.btn-primary.btn-lg {
+  margin: 0 auto;
+  display: block;
+  width: 150px;
+}
+
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically
