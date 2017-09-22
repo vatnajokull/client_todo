@@ -64,7 +64,7 @@
             </div>
             <!-- list of tasks -->
             <ul ng-init="tasks = tasksCtrl.getTasks(list.id)">
-              <h3>{{$scope.tasks}}</h3>
+              <p>id of this list is {{list.id}}</p>
               <li ng-repeat="task in tasks">
                 {{list.id}} | {{task.id}} | {{task.title}} | {{task.completed}} | {{task.deadline}} | {{task.position}}
                 <a ng-click="tasksCtrl.removeTask(task)" href="javascript:void(0)">

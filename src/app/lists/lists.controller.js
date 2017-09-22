@@ -34,9 +34,10 @@
         var list = new List({
           name: newListForm.name
         });
-        $scope.lists.push(list);
         newListForm.name = '';
-        list.create();
+        list.create().then(function(){
+          $scope.lists.push(list);
+        });
       };
 
       vm.updateList = function(list) {

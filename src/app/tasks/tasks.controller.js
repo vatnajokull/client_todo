@@ -2,11 +2,12 @@ angular
   .module('clientTodo')
   .controller('TasksController', TasksController);
 
-  function TasksController($scope, Task) {
+  function TasksController($scope, Task, $http) {
     var vm = this;
     vm.createTask = createTask;
     vm.getTasks = getTasks;
     vm.removeTask = removeTask;
+    vm.queryTask = queryTask;
 
     function createTask (newTaskForm) {
       var task = new Task({
@@ -35,6 +36,10 @@ angular
     };
 
     function getTasks (listId) {
+      queryTask (listId);
+    }
+
+    function queryTask (listId) {
       var tasks = Task.get({
         listId: listId
       }).then(function (tasks){

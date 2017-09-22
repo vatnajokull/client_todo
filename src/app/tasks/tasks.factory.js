@@ -3,12 +3,12 @@
 
   angular
     .module('clientTodo')
-    .factory('Task', ['railsResourceFactory', function(railsResourceFactory) {
+    .factory('Task', TaskFactory);
+
+    function TaskFactory (railsResourceFactory) {
       return railsResourceFactory({
         url: "/api/lists/{{listId}}/tasks/{{id}}",
         name: 'task'
       });
     }
-  ]);
-
 })();
