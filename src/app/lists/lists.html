@@ -72,21 +72,21 @@
           </div>
           <!-- list of tasks -->
           <div class="tasks" id="list.id" ng-init="tasks = tasksCtrl.getTasks(list.id)" >
-            <div class="task" ng-repeat="task in tasks | orderBy:'completed'" ng-class="task.completed ? 'completed' : 'active'">
+            <div class="task" ng-repeat="task in tasks" ng-class="task.completed ? 'completed' : 'active'">
               <div class="checkbox">
-                <input type="checkbox" ng-model="task.completed" ng-click="tasksCtrl.updateTask(task)">
+                <input type="checkbox" ng-model="task.completed" ng-click="tasksCtrl.toggleCompleted(task)">
               </div>
               <div class="info">
                 {{list.id}} | {{task.id}} | {{task.title}} | {{task.completed}} | {{task.deadline}} | {{task.position}}
               </div>
               <div class="options">
-                <a ng-click="tasksCtrl.changePosition(task, 'up')" href="javascript:void(0)">
+                <a ng-click="tasksCtrl.changePosition(task, 'up')" href="javascript:void(0)" ng-if="!task.completed">
                   <i class="fa fa-caret-up" aria-hidden="true"></i>
                 </a>
-                <a ng-click="tasksCtrl.changePosition(task, 'down')" href="javascript:void(0)">
+                <a ng-click="tasksCtrl.changePosition(task, 'down')" href="javascript:void(0)" ng-if="!task.completed">
                   <i class="fa fa-caret-down" aria-hidden="true"></i>
                 </a>
-                <a ng-click="tasksCtrl.updateTask(task)" href="javascript:void(0)">
+                <a ng-click="tasksCtrl.updateTask(task)" href="javascript:void(0)" ng-if="!task.completed">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
                 <a ng-click="tasksCtrl.removeTask(task)" href="javascript:void(0)">

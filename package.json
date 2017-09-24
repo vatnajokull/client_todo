@@ -1,7 +1,9 @@
 {
   "name": "clientTodo",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "array.prototype.move": "0.0.4"
+  },
   "scripts": {
     "test": "gulp test"
   },

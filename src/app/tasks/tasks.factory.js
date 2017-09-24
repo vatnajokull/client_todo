@@ -6,9 +6,19 @@
     .factory('Task', TaskFactory);
 
     function TaskFactory (railsResourceFactory) {
-      return railsResourceFactory({
+      var resource = railsResourceFactory({
         url: "/api/lists/{{listId}}/tasks/{{id}}",
         name: 'task'
       });
+
+      resource.toggleCompleted = function (task) {
+        return resource.$get("/api/lists/" + task.listId + "/tasks/" + task.id + "/toggle_completed");
+      };
+
+      resource.changePosition = function (task, direction) {
+        return resource.$get("/api/lists/" + task.listId + "/tasks/" + task.id + "/change_position", {direction: direction});
+      };
+
+      return resource;
     }
 })();

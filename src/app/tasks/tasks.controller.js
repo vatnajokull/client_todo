@@ -10,6 +10,7 @@ angular
     vm.queryTask = queryTask;
     vm.updateTask = updateTask;
     vm.changePosition = changePosition;
+    vm.toggleCompleted = toggleCompleted;
 
     function createTask (newTaskForm) {
       var task = new Task({
@@ -29,12 +30,33 @@ angular
       task.delete();
     }
 
-    function changePosition (task, direction) {
+    function toggleCompleted (task) {
+      Task.toggleCompleted(task).then(function(returnedTasks){
+        $scope.tasks = angular.copy(returnedTasks);
+      });
+    }
 
+    function changePosition (task, direction) {
+      if (!rulesForBreakingRequest(task, direction)) {
+        Task.changePosition(task, direction).then(function (returnedTasks) {
+          $scope.tasks = angular.copy(returnedTasks);
+        });
+      }
+    }
+
+    function rulesForBreakingRequest (task, direction) {
+      var index = $scope.tasks.indexOf(task);
+      var uncompletedTasks = $scope.tasks.filter(function (task) {
+        return !task.completed;
+      });
+      if (index === 0 && direction === 'up') {
+        return true;
+      } else if (uncompletedTasks.length === index + 1 && direction === 'down') {
+        return true;
+      }
     }
 
     function updateTask (task) {
-      console.log('tried to update ' + task);
       task.update();
     }
 
@@ -57,4 +79,5 @@ angular
         $scope.tasks = tasks;
       });
     }
+
   }
