@@ -3,7 +3,9 @@
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
 $navbar-inverse-link-color: #5AADBB;
-$icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
+// $icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
+$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
+
 
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject
@@ -109,7 +111,7 @@ i.fa-plus {
   padding: 5px 15px 10px 15px;
   width: 100%;
   vertical-align: top;
-  input#task_name {
+  input#title {
     height: 34px;
     width: 77%;
     display: table-cell;
@@ -123,6 +125,7 @@ i.fa-plus {
 .tasks {
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
+  border: 1px solid #ACACAC;
   overflow: hidden;
 }
 
@@ -180,6 +183,12 @@ i.fa-plus {
         color: lightgray;
       }
     }
+  }
+  &:last-of-type {
+    border-radius: 0px 0px 15px 15px;
+    -moz-border-radius: 0px 0px 15px 15px;
+    -webkit-border-radius: 0px 0px 15px 15px;
+    border: 1px solid #ACACAC;
   }
 }
 
