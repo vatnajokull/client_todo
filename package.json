@@ -32,12 +32,7 @@
     "browser-sync-spa": "~1.0.3",
     "http-proxy-middleware": "~0.9.0",
     "chalk": "~1.1.1",
-    "uglify-save-license": "~0.4.1"    
-  },
-  "scripts": {
-    "test": "gulp test"
-  },
-  "devDependencies": {
+    "uglify-save-license": "~0.4.1",
     "estraverse": "~4.1.0",
     "del": "~2.0.2",
     "lodash": "~3.10.1",
@@ -50,6 +45,9 @@
     "karma-phantomjs-shim": "~1.2.0",
     "karma-coverage": "~0.5.2",
     "karma-ng-html2js-preprocessor": "~0.2.0"
+  },
+  "scripts": {
+    "test": "gulp test"
   },
   "engines": {
     "node": ">=0.10.0"
