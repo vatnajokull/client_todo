@@ -27,7 +27,9 @@ function browserSyncInit(baseDir, browser) {
     routes: routes
   };
 
-  server.middleware = proxyMiddleware('/api', {target: process.env.API_URL, changeOrigin: true});
+  server.middleware = proxyMiddleware('/api', {target: 'https://todo-api-vukolov-edition.herokuapp.com', changeOrigin: true}); 
+
+  // server.middleware = proxyMiddleware('/api', {target: process.env.API_URL, changeOrigin: true});
 
 
   /*
