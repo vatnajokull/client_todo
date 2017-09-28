@@ -30,11 +30,26 @@
         });
       };
 
-      $scope.createList = function(newListForm) {
-        var list = new List({
-          name: newListForm.name
+      $scope.newListModal = function () {
+        var modalInstance = $uibModal.open({
+          templateUrl: "app/lists/new_list.template.html",
+          controller: 'newListModalController',
+          controllerAs: 'newListCtrl',
+          size: 'sm'
         });
-        newListForm.name = '';
+
+        modalInstance.result.then(function (listName) {
+          $scope.createList(listName);
+        }, function () {
+          // failure, for instance show alert, 'cancel' function
+        });
+      };
+
+
+      $scope.createList = function(name) {
+        var list = new List({
+          name: name
+        });
         list.create().then(function(){
           $scope.lists.push(list);
         });
@@ -61,11 +76,6 @@
       // when the user logs in, fetch the posts
       $rootScope.$on('auth:login-success', function(ev, user) {
         list_query();
-      });
-
-      // when the user logs out, remove the posts
-      $rootScope.$on('auth:logout-success', function(ev) {
-        $scope.lists = null;
       });
 
       // will get a "401 Unauthorized" if the user is not authenticated

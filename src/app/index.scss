@@ -3,8 +3,8 @@
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
 $navbar-inverse-link-color: #5AADBB;
-// $icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
-$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
+$icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
+// $icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 
 
 /**
@@ -13,6 +13,20 @@ $icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
  */
 // bower:scss
 // endbower
+
+html {
+  min-height: 100%;
+}
+
+body {
+  background: linear-gradient(#D7D0C4, #AC570C);
+  height: auto;
+  width: 100%;
+  min-height: 100%;
+  .loading {
+    overflow: hidden;
+  }
+}
 
 .browsehappy {
   margin: 0.2em 0;
@@ -227,6 +241,30 @@ a.btn.btn-primary.btn-lg {
   margin: 0 auto;
   display: block;
   width: 150px;
+}
+
+.auth-forms {
+  max-width: 400px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: rgba(0, 0, 0, 0.075);
+  padding: 25px;
+  margin-top: 200px;
+  border-radius: 10px;
+}
+
+.welcome-message {
+  height: 150px;
+
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
 }
 
 /**

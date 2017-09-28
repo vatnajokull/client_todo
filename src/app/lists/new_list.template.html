@@ -1,0 +1,13 @@
+<div modal="showModal" close="newListCtrl.cancel()">
+  <div class="modal-header">
+      <h4>Create new list</h4>
+  </div>
+  <div class="modal-body">
+      <p>Please put list's name</p>
+      <input type="text" id="name"  class="form-control" ng-model="newListCtrl.listName" placeholder="Please type name of new list" required autofocus>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" ng-click="newListCtrl.ok()">Save</button>
+    <button class="btn" ng-click="newListCtrl.cancel()">Discard</button>
+  </div>
+</div>

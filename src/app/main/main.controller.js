@@ -1,39 +1,22 @@
-(function() {
-  'use strict';
+angular
+  .module('clientTodo')
+  .controller('MainController', MainController);
 
-  angular
-    .module('clientTodo')
-    .controller('MainController', MainController);
+  function MainController($location, $rootScope, $timeout, $cookies, $scope, $auth) {
+    // var vm = this;
 
-  /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
-    var vm = this;
+    // when the user logs out, remove the posts
+    $rootScope.$on('auth:logout-success', function(ev) {
+      $location.path('/')
+    });
 
-    vm.awesomeThings = [];
-    vm.classAnimation = '';
-    vm.creationDate = 1505291979232;
-    vm.showToastr = showToastr;
-
-    activate();
-
-    function activate() {
-      getWebDevTec();
-      $timeout(function() {
-        vm.classAnimation = 'rubberBand';
-      }, 4000);
+    function checkUser() {
+      if (!!$cookies.get('auth_headers')) {
+        $location.path('/lists');
+      } else {
+        $location.path('/');
+      }
     }
 
-    function showToastr() {
-      toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-      vm.classAnimation = '';
-    }
-
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
-      });
-    }
+    checkUser();
   }
-})();
