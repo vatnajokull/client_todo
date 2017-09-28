@@ -52,7 +52,7 @@
     "wrench": "~1.5.8"
   },
   "scripts": {
-    "postinstall": "bower install && gulp default",
+    "postinstall": "bower install && gulp build",
     "test": "gulp test"
   },
   "engines": {
