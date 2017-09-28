@@ -48,8 +48,7 @@
     "karma-ng-html2js-preprocessor": "~0.2.0"
   },
   "scripts": {
-    "start": "node app",
-    "postinstall": "bower install && gulp default",
+    "postinstall": "bower install",
     "test": "gulp test"
   },
   "engines": {
