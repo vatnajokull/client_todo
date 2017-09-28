@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config();
 
 var path = require('path');
 var gulp = require('gulp');
@@ -26,7 +27,7 @@ function browserSyncInit(baseDir, browser) {
     routes: routes
   };
 
-  server.middleware = proxyMiddleware('/api', {target: 'http://localhost:3030', changeOrigin: true});
+  server.middleware = proxyMiddleware('/api', {target: process.env.API_URL, changeOrigin: true});
 
 
   /*
