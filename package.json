@@ -2,6 +2,7 @@
   "name": "clientTodo",
   "version": "0.0.0",
   "dependencies": {
+    "bower": "~1.8.2",
     "array.prototype.move": "0.0.4",
     "gulp": "~3.9.0",
     "gulp-autoprefixer": "~3.0.2",
