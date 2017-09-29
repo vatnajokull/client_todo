@@ -1,5 +1,6 @@
 (function() {
   'use strict';
+  require('dotenv').config();
 
   angular
     .module('clientTodo')
@@ -48,7 +49,7 @@
        expires: 9999,
        expirationUnit: 'days',
        secure: false,
-       domain: 'localhost'
+       domain: process.env.DOMAIN
      },
      createPopup: function(url) {
        return window.open(url, '_blank', 'closebuttoncaption=Cancel');
