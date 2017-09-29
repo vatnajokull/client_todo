@@ -3,6 +3,8 @@ angular
   .controller('RegisterController', RegisterController)
 
   function RegisterController ($rootScope, $scope, $auth, $location) {
+    var vm = this;
+
     $scope.handleRegBtnClick = function() {
       $auth.submitRegistration($scope.registrationForm)
         .then(function(resp) {
@@ -18,6 +20,6 @@ angular
     });
 
     $scope.$on('auth:registration-email-error', function(ev, reason) {
-      alert("Registration failed: " + reason.errors[0]);
+      vm.registerErrors = angular.copy(reason.errors);
     });
   }
