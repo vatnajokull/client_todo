@@ -1,1 +1,1 @@
-web: node heroku-web.js
+web: gulp serve
