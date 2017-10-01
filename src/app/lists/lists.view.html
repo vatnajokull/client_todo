@@ -23,7 +23,7 @@
           </a>
         </div>
       </div>
-      <div class="tasks_wrapper" ng-controller="TasksController as tasksCtrl">
+      <div class="tasks_wrapper" ng-controller="TasksController as tasksCtrl" ng-if="list.id">
         <!-- form for add new tasks to list -->
         <div class="task_form" id={{list.id}}>
           <form ng-submit="tasksCtrl.createTask(newTaskForm)" role="form" ng-init="newTaskForm = {listId: list.id}">

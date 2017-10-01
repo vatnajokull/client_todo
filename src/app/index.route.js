@@ -28,7 +28,7 @@
       })
       .state('lists', {
         url: '/lists',
-        templateUrl: 'app/lists/lists.html',
+        templateUrl: 'app/lists/lists.view.html',
         controller: 'ListsController',
         controllerAs: 'lists',
         resolve: {

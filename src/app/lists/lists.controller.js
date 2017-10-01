@@ -7,13 +7,9 @@
 
       var vm = this;
 
-      // method to query the posts api and store the results in $scope
-      // note: the linter will complain, but that can be fixed later:
-      // You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"
-
       $scope.open = function (editedList) {
         var modalInstance = $uibModal.open({
-          templateUrl: "app/lists/edit_list.template.html",
+          templateUrl: "app/lists/edit_list.view.html",
           controller: 'ModalInstanceController',
           size: 'sm',
           resolve: {
@@ -32,7 +28,7 @@
 
       $scope.newListModal = function () {
         var modalInstance = $uibModal.open({
-          templateUrl: "app/lists/new_list.template.html",
+          templateUrl: "app/lists/new_list.view.html",
           controller: 'newListModalController',
           controllerAs: 'newListCtrl',
           size: 'sm'

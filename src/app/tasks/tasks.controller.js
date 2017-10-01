@@ -68,6 +68,7 @@ angular
     }
 
     var tasks_query = function (listId) {
+      console.log("I am a #tasks_query");
       Task.query({
         listId: listId
       }).then(function (tasks){
