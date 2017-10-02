@@ -8,9 +8,29 @@ var conf = require('./conf');
 var browserSync = require('browser-sync');
 var browserSyncSpa = require('browser-sync-spa');
 
+var morgan = require('morgan');
+var express = require('express')
+var app = express()
+
 var util = require('util');
 
 var proxyMiddleware = require('http-proxy-middleware');
+
+function expressInit(baseDir) {
+  console.log('baseDir is ' + baseDir);
+  app.use(morgan('dev'));
+  app.use(express.static(__dirname + '/src'));
+
+  app.get('/', function (req, res) {
+    res.send('home')
+  })
+
+  app.middleware = proxyMiddleware('/api', {target: process.env.API_URL, changeOrigin: true});
+
+  app.listen(process.env.PORT, function () {
+    console.log('Example app listening on port ' + process.env.PORT)
+  })
+}
 
 function browserSyncInit(baseDir, browser) {
   browser = browser === undefined ? 'default' : browser;
@@ -27,19 +47,7 @@ function browserSyncInit(baseDir, browser) {
     routes: routes
   };
 
-  // server.middleware = proxyMiddleware('/api', {target: 'https://todo-api-vukolov-edition.herokuapp.com', changeOrigin: true});
-
   server.middleware = proxyMiddleware('/api', {target: process.env.API_URL, changeOrigin: true});
-
-
-  /*
-   * You can add a proxy to your backend by uncommenting the line below.
-   * You just have to configure a context which will we redirected and the target url.
-   * Example: $http.get('/users') requests will be automatically proxified.
-   *
-   * For more details and option, https://github.com/chimurai/http-proxy-middleware/blob/v0.9.0/README.md
-   */
-  // server.middleware = proxyMiddleware('/users', {target: 'http://jsonplaceholder.typicode.com', changeOrigin: true});
 
   browserSync.instance = browserSync.init({
     startPath: '/',
@@ -52,6 +60,10 @@ function browserSyncInit(baseDir, browser) {
 browserSync.use(browserSyncSpa({
   selector: '[ng-app]'// Only needed for angular apps
 }));
+
+gulp.task('production', ['watch'], function () {
+  expressInit([path.join(conf.paths.tmp, '/serve'), conf.paths.src]);
+});
 
 gulp.task('serve', ['watch'], function () {
   browserSyncInit([path.join(conf.paths.tmp, '/serve'), conf.paths.src]);

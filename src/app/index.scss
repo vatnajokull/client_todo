@@ -14,6 +14,8 @@ $icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
 // bower:scss
 // endbower
 
+$header-background: linear-gradient(#537FBF, #315589);
+
 html {
   min-height: 100%;
 }
@@ -63,7 +65,7 @@ h2 {
   .header {
     display: table;
     width: 100%;
-    background: #4b7ab2;
+    background: $header-background;
     &:hover {
       .options {
         .fa {
@@ -95,7 +97,7 @@ h2 {
     vertical-align: middle;
     width: 30%;
     .fa {
-      color: rgba(75, 122, 178, 1);
+      color: transparent;
       font-size: 20px;
       padding: 0 5px;
     }
@@ -108,16 +110,32 @@ p.title {
   font-size: 25px;
 }
 
-i.fa.fa-trash, .fa-caret-up, .fa-caret-down, .fa-pencil {
-  border-left: solid 1px rgba(75, 122, 178, 1);
-}
 
 i.fa-plus {
   font-size: 26px;
   color: #589171;
   vertical-align: middle;
   margin-right: 15px;
+  &.add-todo{
+    background-color: #565656;
+    color: transparent;
+    text-shadow: 0px 1px 0px rgba(255,255,255,0.5);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+         background-clip: text;
+  }
 }
+
+a.add-todo-list {
+  width: 200px;
+  background: $header-background;
+  border-color: #3B5882;
+  color: white;
+  display: block;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
 
 .task_form {
   background: #D1D1D1;
@@ -154,7 +172,9 @@ i.fa-plus {
   border-width: thin;
   .checkbox {
     display: table-cell;
-    width: 10%;
+    width: 5%;
+    border-right-color: #efb6a1;
+    border-right-style: double;
     input {
       top: 0;
       right: 0;
@@ -166,9 +186,14 @@ i.fa-plus {
   }
   .info {
     display: table-cell;
-    width: 60%;
+    width: 70%;
     vertical-align: middle;
     font-size: 14px;
+    padding-left: 15px;
+    padding-right: 5px;
+    border-right-color: #acacac;
+    border-right-width: thin;
+    border-right-style: solid;
     span {
       color: #a56867;
       float: right;
