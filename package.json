@@ -58,7 +58,7 @@
     "karma-phantomjs-launcher": "^0.2.3"
   },
   "scripts": {
-    "postinstall": "bower install && gulp build"
+    "postinstall": "bower install"
   },
   "engines": {
     "node": ">=0.10.0"
