@@ -3,59 +3,58 @@
 
   angular
     .module('clientTodo')
-    .controller('ListsController', function($rootScope, $scope, $state, $stateParams, List, $uibModal) {
+    .controller('ListsController', function($rootScope, $scope, List, $mdDialog, $mdExpansionPanel) {
 
       var vm = this;
+      var newListForm = {}
 
-      $scope.open = function (editedList) {
-        var modalInstance = $uibModal.open({
-          templateUrl: "app/lists/edit_list.view.html",
-          controller: 'ModalInstanceController',
-          size: 'sm',
-          resolve: {
-            editedList: function () {
-              return editedList;
-            }
-          }
-        });
+      vm.editedList = null;
 
-        modalInstance.result.then(function (list) {
-          vm.updateList(list);
-        }, function () {
-          // failure, for instance show alert, 'cancel' function
-        });
-      };
+      vm.createList = createList;
+      vm.resetForm = resetForm;
+      vm.showAlertRemoveList = showAlertRemoveList;
+      vm.editList = editList;
+      vm.updateList = updateList;
+      vm.cancelEdit = cancelEdit;
 
-      $scope.newListModal = function () {
-        var modalInstance = $uibModal.open({
-          templateUrl: "app/lists/new_list.view.html",
-          controller: 'newListModalController',
-          controllerAs: 'newListCtrl',
-          size: 'sm'
-        });
-
-        modalInstance.result.then(function (listName) {
-          $scope.createList(listName);
-        }, function () {
-          // failure, for instance show alert, 'cancel' function
-        });
-      };
-
-
-      $scope.createList = function(name) {
+      function createList(form) {
+        console.log('-> triggered createList');
         var list = new List({
-          name: name
+          name: form.name
         });
         list.create().then(function(){
           $scope.lists.push(list);
+          resetForm(form);
         });
-      };
+      }
 
-      vm.updateList = function(list) {
-        list.update();
-      };
+      function resetForm (form) {
+        console.log('in resetForm');
+        $scope.showButtons = false;
+        form.$setUntouched();
+        form.$setPristine();
+        form.name = ''
+      }
 
-      $scope.removeList = function(list) {
+      function editList (list) {
+        vm.editedList = angular.copy(list);
+      }
+
+      function updateList (list, name) {
+        console.log('in update');
+        list.name = name;
+        list.update().then(function () {
+          cancelEdit();
+        });
+      }
+
+      function cancelEdit () {
+        console.log('in cancelEdit');
+
+        vm.editedList = null;
+      }
+
+      function removeList (list) {
         var index = $scope.lists.indexOf(list);
         if (index > -1) {
           $scope.lists.splice(index, 1);
@@ -63,7 +62,24 @@
         list.delete();
       };
 
+      function showAlertRemoveList(list, ev) {
+        var confirm = $mdDialog.confirm()
+              .title('Delete list?')
+              .textContent('Do you really want to delete "' + list.name + '" ?')
+              .ariaLabel('Lucky day')
+              .targetEvent(ev)
+              .ok('Delete')
+              .cancel('Cancel');
+
+        $mdDialog.show(confirm).then(function() {
+          removeList(list);
+        }, function() {
+          // $scope.status = 'You decided to keep your debt.';
+        });
+      };
+
       var list_query = function(){
+        console.log('in list_query function');
         List.query().then(function(lists){
           $scope.lists = lists;
         });

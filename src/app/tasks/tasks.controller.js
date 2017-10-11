@@ -2,8 +2,11 @@ angular
   .module('clientTodo')
   .controller('TasksController', TasksController);
 
-  function TasksController($scope, Task, $uibModal) {
+  function TasksController($scope, Task, $mdDialog, mdcDateTimeDialog) {
     var vm = this;
+
+    vm.editedTask = null;
+
     vm.createTask = createTask;
     vm.getTasks = getTasks;
     vm.removeTask = removeTask;
@@ -11,17 +14,97 @@ angular
     vm.updateTask = updateTask;
     vm.changePosition = changePosition;
     vm.toggleCompleted = toggleCompleted;
-    vm.editTaskModal = editTaskModal;
+    vm.resetForm = resetForm;
+    vm.showComments = showComments;
+    vm.setDeadline = setDeadline;
+    vm.showAlertRemoveTask = showAlertRemoveTask;
+    vm.getDeadlineClass = getDeadlineClass;
+    vm.setDeadline = setDeadline;
+    vm.editTask = editTask;
+    vm.updateTask = updateTask;
+    vm.cancelEdit = cancelEdit;
 
-    function createTask (newTaskForm) {
-      var task = new Task({
-        listId: newTaskForm.listId,
-        title: newTaskForm.title
+    function editTask (task) {
+      console.log('in editedTask');
+      vm.editedTask = angular.copy(task);
+      console.log(vm.editedTask);
+    }
+
+    function updateTask (task, title) {
+      console.log('in task update');
+      console.log('title is: ' + title);
+      task.title =  title;
+      task.update().then(function () {
+        cancelEdit();
       });
-      newTaskForm.title = '';
+    }
+
+    function cancelEdit () {
+      console.log('in task cancelEdit');
+
+      vm.editedTask = null;
+    }
+
+    function setDeadline (task) {
+      mdcDateTimeDialog.show({
+        minDate: new Date (),
+        time: true,
+        currentDate: task.deadline
+      })
+        .then(function (date) {
+          task.deadline = date;
+          task.update();
+          // console.log('New Date / Time selected:', date);
+        }, function() {
+          console.log('Selection canceled');
+        });
+    };
+
+    function createTask (form) {
+      var task = new Task({
+        listId: $scope.list.id,
+        title: form.title
+      });
       task.create().then(function (createdTask) {
+        resetForm(form)
         $scope.tasks.push(createdTask);
         });
+    }
+
+    function resetForm (form) {
+      console.log('in task reset form');
+      $scope.showButtonsTask = false;
+      form.$setUntouched();
+      form.$setPristine();
+      form.title = ''
+    }
+
+    function showComments (ev, task) {
+      console.log('showComments');
+      console.log('comments for task id: ' + task.id);
+      $mdDialog.show({
+        locals: {
+          passedTask: task
+        },
+        controller: CommentsController,
+        controllerAs: 'vm',
+        templateUrl: 'app/comments/comments.view.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true
+      })
+      .then(function() {
+      }, function(commentsCount) {
+        task.commentsCount = commentsCount
+      });
+    }
+
+    function getDeadlineClass (task) {
+      if (new Date(task.deadline) > new Date() ) {
+        return 'future'
+      } else {
+        return 'past'
+      }
     }
 
     function removeTask (task) {
@@ -32,6 +115,22 @@ angular
       task.delete();
     }
 
+    function showAlertRemoveTask(task, ev) {
+      var confirm = $mdDialog.confirm()
+            .title('Delete task')
+            .textContent('Do you really want to delete "' + task.title + '" ?')
+            .ariaLabel('Lucky day')
+            .targetEvent(ev)
+            .ok('Delete')
+            .cancel('Cancel');
+
+      $mdDialog.show(confirm).then(function() {
+        removeTask(task);
+      }, function() {
+        // $scope.status = 'You decided to keep your debt.';
+      });
+    };
+
     function toggleCompleted (task) {
       Task.toggleCompleted(task).then(function(returnedTasks){
         $scope.tasks = angular.copy(returnedTasks);
@@ -39,6 +138,7 @@ angular
     }
 
     function changePosition (task, direction) {
+      console.log('in changePosition');
       if (!rulesForBreakingRequest(task, direction)) {
         Task.changePosition(task, direction).then(function (returnedTasks) {
           $scope.tasks = angular.copy(returnedTasks);
@@ -52,19 +152,11 @@ angular
         return !task.completed;
       });
 
-      // console.log('index ' + index);
-      // console.log('uncompletedTasks.length' + uncompletedTasks.length);
-      // console.log('$scope.tasks.length ' + $scope.tasks.length);
-
       if (index === 0 && direction === 'up') {
         return true;
       } else if ((uncompletedTasks.length === index || uncompletedTasks.length === index + 1 || uncompletedTasks.length < index) && direction === 'down') {
         return true;
       }
-    }
-
-    function updateTask (task) {
-      task.update();
     }
 
     var tasks_query = function (listId) {
@@ -77,6 +169,7 @@ angular
     };
 
     function getTasks (listId) {
+      console.log("--> getTasks from list " + listId);
       queryTask (listId);
     }
 
@@ -88,25 +181,25 @@ angular
       });
     }
 
-    function editTaskModal (task) {
-      var modalInstance = $uibModal.open({
-        templateUrl: "app/tasks/edit_task.template.html",
-        controller: 'TaskModalInstanceController',
-        controllerAs: 'editTaskCtrl',
-        resolve: {
-          editedTask: function () {
-            return task;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (double) {
-        task.title = double.title
-        task.deadline = double.deadline
-        updateTask(task);
-      }, function () {
-        // failure, for instance show alert, 'cancel' function
-      });
-    }
+    // function editTaskModal (task) {
+    //   var modalInstance = $uibModal.open({
+    //     templateUrl: "app/tasks/edit_task.template.html",
+    //     controller: 'TaskModalInstanceController',
+    //     controllerAs: 'editTaskCtrl',
+    //     resolve: {
+    //       editedTask: function () {
+    //         return task;
+    //       }
+    //     }
+    //   });
+    //
+    //   modalInstance.result.then(function (double) {
+    //     task.title = double.title
+    //     task.deadline = double.deadline
+    //     updateTask(task);
+    //   }, function () {
+    //     // failure, for instance show alert, 'cancel' function
+    //   });
+    // }
 
   }

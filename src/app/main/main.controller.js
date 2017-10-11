@@ -2,9 +2,7 @@ angular
   .module('clientTodo')
   .controller('MainController', MainController);
 
-  function MainController($location, $rootScope, $timeout, $cookies, $scope, $auth) {
-    // var vm = this;
-
+  function MainController($location, $rootScope, $cookies, $scope, $auth) {
     // when the user logs out, remove the posts
     $rootScope.$on('auth:logout-success', function(ev) {
       $location.path('/')

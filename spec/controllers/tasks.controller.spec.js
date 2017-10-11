@@ -1,4 +1,4 @@
-describe('ListsController', function(){
+describe('TasksController', function(){
   // var List, $httpBackend;
   //
   // beforeEach(function() {

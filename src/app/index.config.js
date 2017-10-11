@@ -7,7 +7,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, toastrConfig, $authProvider) {
+  function config($logProvider, toastrConfig, FlashProvider, $authProvider) {
     // Enable log
     $logProvider.debugEnabled(true);
 
@@ -17,6 +17,10 @@
     toastrConfig.positionClass = 'toast-top-right';
     toastrConfig.preventDuplicates = true;
     toastrConfig.progressBar = true;
+
+    // FlashProvider
+    FlashProvider.setTimeout(5000);
+    FlashProvider.setShowClose(true);
 
     // ng-token-auth config:
    $authProvider.configure({

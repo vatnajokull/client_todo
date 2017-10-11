@@ -1,24 +1,22 @@
-<div class="col-md-6 col-md-offset-3 auth-forms">
-  <h2>Registration</h2>
-  <form ng-submit="submitRegistration(registrationForm)" role="form" ng-init="registrationForm = {}" method="post">
-    <div class="form-group" ng-class="vm.registerErrors.email ? 'has-error' : ''">
-      <label for="email">Email</label>
-      <input type="email" name="email" ng-model="registrationForm.email" placeholder="Email" class="form-control" autofocus>
-      <span class="help-block" ng-if="vm.registerErrors.email">{{vm.registerErrors.email[0]}}</span>
-    </div>
-    <div class="form-group" ng-class="vm.registerErrors.password ? 'has-error' : ''">
+<div class="auth-forms">
+  <span class="form-title">Sign Up</span>
+  <flash-message></flash-message>
+  <form ng-submit="submitRegistration(registrationForm)" role="form" name="registrationForm" method="post">
+    <md-input-container class="md-block" flex-gt-sm>
+      <label>Email</label>
+      <input type="email" ng-model="registrationForm.email" required autofocus>      
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-sm>
       <label for="password">Password</label>
-      <input type="password" name="password" ng-model="registrationForm.password" id="email" placeholder="Password" class="form-control">
-      <span class="help-block" ng-if="vm.registerErrors.password">{{vm.registerErrors.password[0]}}</span>
-    </div>
-    <div class="form-group" ng-class="vm.registerErrors.password_confirmation ? 'has-error' : ''">
-      <label for="pwdConfirm">Password confirmation</label>
-      <input type="password" name="password_confirmation" ng-model="registrationForm.password_confirmation" id="pwdConfirm" placeholder="Password confirmation" class="form-control">
-      <span class="help-block" ng-if="vm.registerErrors.password_confirmation">{{vm.registerErrors.password_confirmation[0]}}</span>
-    </div>
-    <div class="form-actions">
-      <button type="submit" class="btn btn-default">Create new account</button>
-      <a href="#/" class="btn btn-link">Cancel</a>
-    </div>
+      <input type="password" id="password" ng-model="registrationForm.password">
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-sm>
+      <label for="password">Password confirmation</label>
+      <input type="password" id="pwdConfirm" ng-model="registrationForm.password_confirmation">
+    </md-input-container>
+    <md-button type="submit" class="md-raised md-primary">Sign Up</md-button>
+    <p class="form-description">Already a member?
+      <a href="#/login">Sign In</a>
+    </p>
   </form>
 </div>
