@@ -25,21 +25,45 @@ angular
     }
 
     function createComment(form) {
-      console.log('in createComment function');
-      var comment = new Comment({
-        listId: task.listId,
-        taskId: task.id,
-        body: form.body
-      });
-      comment.create().then(function(createdComment) {
-        resetForm(form)
-        commentsCount++
-        $scope.comments.push(createdComment);
-      });
+      console.log('tried to upload file');      
+      base64File = ''
+      Upload.dataUrl(form.attachment, true).then(function(url)
+        {
+          // console.log('this is url ' + url);          
+          var comment = new Comment({
+            listId: task.listId,
+            taskId: task.id,
+            body: form.body,
+            attachment: url
+          });          
+          comment.create();
+        })
+      // form.attachment.upload = Upload.upload({        
+      //   url: '/api/lists/' + task.listId + '/tasks/' + task.id + '/comments',
+      //   data: { 
+      //     comment: {
+      //       attachment: form.attachment 
+      //     }
+      //   }
+      // });
+
+      // console.log('usual flow for creating comment');
+      // var comment = new Comment({
+      //   listId: task.listId,
+      //   taskId: task.id,
+      //   body: form.body        
+      // });
+      // comment.create().then(function(createdComment) {
+      //   resetForm(form)
+      //   commentsCount++
+      //   $scope.comments.push(createdComment);
+      // });
     }
 
-    function attachFile(comment) {
+    function attachFile(form) {
       console.log('attachFile function in development');
+      console.log(form.attachment);
+
     }
 
     function resetForm(form) {

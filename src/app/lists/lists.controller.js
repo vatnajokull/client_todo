@@ -3,13 +3,12 @@
 
   angular
     .module('clientTodo')
-    .controller('ListsController', function($rootScope, $scope, List, $mdDialog, $mdExpansionPanel) {
+    .controller('ListsController', function($rootScope, $scope, List, $mdDialog, $mdExpansionPanel, $mdToast) {
 
       var vm = this;
-      var newListForm = {}
-
+      vm.newList = {};
       vm.editedList = null;
-
+            
       vm.createList = createList;
       vm.resetForm = resetForm;
       vm.showAlertRemoveList = showAlertRemoveList;
@@ -17,23 +16,37 @@
       vm.updateList = updateList;
       vm.cancelEdit = cancelEdit;
 
-      function createList(form) {
-        console.log('-> triggered createList');
-        var list = new List({
-          name: form.name
-        });
-        list.create().then(function(){
-          $scope.lists.push(list);
-          resetForm(form);
-        });
+      function createList(newList, form) {
+         console.log('-> triggered createList');
+        if (form.$valid) {
+          var list = new List({
+            name: newList.name
+          });
+          list.create().then(function(){
+            $scope.lists.push(list);
+            resetForm(form);                        
+          }, function(response){
+            showServerValidationErrors(response);
+          })
+        }       
       }
 
-      function resetForm (form) {
+      function showServerValidationErrors(response) {
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent('This name ' + response.data.name[0])
+            .position('top right' )
+            .hideDelay(1500)
+          );                   
+        }
+
+      function resetForm(form) {        
         console.log('in resetForm');
         $scope.showButtons = false;
+        vm.newList = {};        
         form.$setUntouched();
         form.$setPristine();
-        form.name = ''
+        form.listName = ''        
       }
 
       function editList (list) {
@@ -86,9 +99,9 @@
       };
 
       // when the user logs in, fetch the posts
-      $rootScope.$on('auth:login-success', function(ev, user) {
-        list_query();
-      });
+      // $rootScope.$on('auth:login-success', function(ev, user) {
+      //   list_query();
+      // });
 
       // will get a "401 Unauthorized" if the user is not authenticated
       list_query();

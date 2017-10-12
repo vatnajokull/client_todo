@@ -17,15 +17,17 @@
         <!-- Add new comment form -->
         <div class="add-new-comment">
           <form ng-submit="vm.createComment(newCommentForm)" role="form" name="newCommentForm" >
-            <md-input-container class="md-block">
-             <textarea ng-model="newCommentForm.body" minlength="10" md-maxlength="256" maxlength="256" rows="3" md-select-on-focus placeholder="Enter Your Comment"></textarea>
-           </md-input-container>
-           <div class="attachment-icon">
-             <input type="file" ngf-select ng-model="newCommentForm.attachment" name="file" accept="image/*" ngf-max-size="10MB" ngf-model-invalid="errorFile">
-             <a ng-click="vm.attachFile(comment, file)" href="javascript:void(0)">
-               <i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>
-             </a>
-           </div>
+            <div class="textarea">
+              <md-input-container class="md-block">
+                <textarea ng-model="newCommentForm.body" minlength="10" md-maxlength="256" maxlength="256" rows="3" md-select-on-focus placeholder="Enter Your Comment"></textarea>
+              </md-input-container>              
+            </div>            
+            <div class="attachment-icon">
+              <input type="file" ngf-select ng-model="newCommentForm.attachment" name="file" accept="image/*" ngf-max-size="10MB" ngf-model-invalid="errorFile">
+              <a ng-click="vm.attachFile(comment, file)" href="javascript:void(0)">
+                <i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>
+              </a>
+            </div>
            <div class="action-buttons">
              <md-button type="submit" name="button" class="md-raised md-primary">Save</md-button>
              <md-button type="button" ng-click="vm.cancel()">Cancel</md-button>
@@ -45,9 +47,14 @@
               <i class="fa fa-trash" aria-hidden="true"></i>
             </a>
           </div>
+          <pre>{{comment.id}}</pre>
+          <pre>{{comment.attachment.url}}</pre>
           <div class="comment-body">
             {{comment.body}}
-          </div>
+            <a ng-hide="comment.attachment.url === null" href="{{comment.attachment.url}}" target="_blank">
+              <img ng-src="{{comment.attachment.thumb.url}}">  
+            </a>            
+          </div>          
         </div>
       </div>
     </div>

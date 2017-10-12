@@ -4,14 +4,14 @@
   <div class="list-wrapper" ng-repeat="list in lists" ng-cloak="">
     <md-expansion-panel md-component-id="{{list.id}}">
 
-    <md-expansion-panel-collapsed>
+    <md-expansion-panel-collapsed class='collapsed-list'>
       <md-expansion-panel-icon ng-click="$panel.expand()" class="flex-offset-0"></md-expansion-panel-icon>
       <div class="list-name">{{list.name}}</div>
       <div class="list-options">
-        <a ng-click="listsCtrl.editList(list)" href="javascript:void(0)">
+        <a ng-click="listsCtrl.editList(list); $event.stopPropagation()" href="javascript:void(0)">
           <i class="fa fa-pencil" aria-hidden="true"></i>
         </a>
-        <a ng-click="listsCtrl.showAlertRemoveList(list)" href="javascript:void(0)">
+        <a ng-click="listsCtrl.showAlertRemoveList(list); $event.stopPropagation()" href="javascript:void(0)">
           <i class="fa fa-trash-o" aria-hidden="true"></i>
         </a>
       </div>
@@ -105,16 +105,16 @@
 
 
   <!-- add new list  -->
-  <form ng-submit="listsCtrl.createList(newListForm)" role="form" name="newListForm">
+  <form ng-submit="listsCtrl.createList(listsCtrl.newList, form)" role="form" name="form">
     <md-input-container md-no-float class="md-block">
-      <input ng-focus="showButtons=true" ng-model="newListForm.name" name="listName" placeholder="Enter List Name ..." required >
-      <div ng-messages="newListForm.name.$error">
-       <div ng-message="required">This is required!</div>
-     </div>
+      <input id="name" ng-focus="showButtons=true" ng-model="listsCtrl.newList.name" name="listName" placeholder="Enter List Name ..." required>
+      <div ng-messages="form.listName.$error">
+        <div ng-message="required">Name is required</div>
+      </div>
     </md-input-container>
     <div class="action-buttons" ng-show="showButtons" >
-      <md-button type="submit" class="md-raised md-primary">Create List</md-button>
-      <md-button type="button" ng-click="listsCtrl.resetForm(newListForm)">Cancel</md-button>
+      <md-button type="submit" class="md-raised md-primary">Create Project</md-button>
+      <md-button type="button" ng-click="listsCtrl.resetForm(form)">Cancel</md-button>
     </div>
   </form>
 </div>

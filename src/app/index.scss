@@ -18,6 +18,14 @@ $todo-grey: #959595;
 $hover-background: #f6f6f6 !important;
 $opened-list-header: #e1e7f3 !important;
 
+@mixin options {
+  font-size: 14pt;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: auto;
+}
+
 html {
   min-height: 100%;
 }
@@ -76,10 +84,29 @@ body {
   background-color: $opened-list-header
 }
 
+
+.collapsed-list {
+  .fa {
+    color: transparent;
+  };
+  &:hover{
+    background-color: $hover-background;
+    .fa {
+      color: $todo-grey;      
+    }
+  }
+}
+
 .list-name {
   font-size: 11pt;
   color: $todo-grey;
   font-weight: 800;
+}
+
+.list-options {
+  @include options;
+  width: 45px;
+  margin-right: 0px;  
 }
 
 .task {
@@ -128,13 +155,9 @@ body {
 }
 
 .task-options {
+  @include options;
   width: 120px;
-  font-size: 14pt;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: auto;
-  margin-right: 15px;
+  margin-right: 15px;  
 }
 
 .task-form {
@@ -149,18 +172,6 @@ body {
 .md-close {
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-.md-expansion-panel-collapsed {
-  .fa {
-    color: transparent;
-  };
-  &:hover{
-    background-color: $hover-background;
-    .fa {
-      color: $todo-grey;
-    }
-  }
 }
 
 .task-deadline {
@@ -206,7 +217,7 @@ body {
 }
 
 .attachment-icon {
-  position: absolute;
+  // position: absolute;
   z-index: 9999;
   right: -216px;
   bottom: 140px;
@@ -215,238 +226,9 @@ body {
   }
 }
 
-
-.options {
-  // border-style: solid;
-  // border-width: thin;
-  // border-color: $todo-grey;
-  // &.fa.fa-trash-o{
-  //   padding-left: 10px;
-  // }
+.error {
+  background: red;
 }
-
-// h1 {
-//   text-align: center;
-// }
-//
-// h2 {
-//   text-align: center;
-// }
-//
-// .ui-datepicker {
-//    z-index:1151 !important;
-// }
-//
-// .list {
-//   width: 60%;
-//   display: table;
-//   margin: 0 auto;
-//   padding-bottom: 3em;
-//   .header {
-//     display: table;
-//     width: 100%;
-//     background: $header-background;
-//     &:hover {
-//       .options {
-//         .fa {
-//           color: lightgray;
-//         }
-//         .fa-trash {
-//           border-left: solid 1px lightgray;
-//         }
-//       }
-//     }
-//   }
-//   .title {
-//     width: 70%;
-//     display: table-cell;
-//     padding: 0 20px;
-//     h3 {
-//      display: inline-block;
-//      padding: 0 0 0 15px;
-//      color: white;
-//    }
-//    .fa {
-//      font-size: 25px;
-//      color: white;
-//    }
-//   }
-//   .options {
-//     display: table-cell;
-//     text-align: right;
-//     vertical-align: middle;
-//     width: 30%;
-//     .fa {
-//       color: transparent;
-//       font-size: 20px;
-//       padding: 0 5px;
-//     }
-//   }
-// }
-//
-// p.title {
-//   text-align: left;
-//   color: white;
-//   font-size: 25px;
-// }
-//
-//
-// i.fa-plus {
-//   font-size: 26px;
-//   color: #589171;
-//   vertical-align: middle;
-//   margin-right: 15px;
-//   &.add-todo{
-//     background-color: #565656;
-//     color: transparent;
-//     text-shadow: 0px 1px 0px rgba(255,255,255,0.5);
-//     -webkit-background-clip: text;
-//     -moz-background-clip: text;
-//          background-clip: text;
-//   }
-// }
-//
-// a.add-todo-list {
-//   width: 200px;
-//   background: $header-background;
-//   border-color: #3B5882;
-//   color: white;
-//   display: block;
-//   margin: 0 auto;
-//   border-radius: 2px;
-// }
-//
-//
-// .task_form {
-//   background: #D1D1D1;
-//   display: table;
-//   padding: 5px 15px 10px 15px;
-//   width: 100%;
-//   vertical-align: top;
-//   input#title {
-//     height: 34px;
-//     width: 77%;
-//     display: table-cell;
-//   }
-//   .btn .btn-success {
-//     background: #589171;
-//     border-color: #589171;
-//   }
-// }
-//
-// .tasks {
-//   border-bottom-right-radius: 15px;
-//   border-bottom-left-radius: 15px;
-//   border: 1px solid #ACACAC;
-//   overflow: hidden;
-// }
-//
-// .task {
-//   display: table;
-//   background: white;
-//   color: #ACACAC;
-//   width: 100%;
-//   height: 40px;
-//   border-top: #E7EBEA;
-//   border-style: solid;
-//   border-width: thin;
-//   .checkbox {
-//     display: table-cell;
-//     width: 5%;
-//     border-right-color: #efb6a1;
-//     border-right-style: double;
-//     input {
-//       top: 0;
-//       right: 0;
-//       left: 0;
-//       bottom: 0;
-//       margin: auto;
-//       display: block;
-//     }
-//   }
-//   .info {
-//     display: table-cell;
-//     width: 70%;
-//     vertical-align: middle;
-//     font-size: 14px;
-//     padding-left: 15px;
-//     padding-right: 5px;
-//     border-right-color: #acacac;
-//     border-right-width: thin;
-//     border-right-style: solid;
-//     span {
-//       color: #a56867;
-//       float: right;
-//       font-size: 12px;
-//     }
-//   }
-//   .options {
-//     display: table-cell;
-//     width: 16%;
-//     .fa.fa-trash,
-//     .fa-caret-up,
-//     .fa-caret-down,
-//     .fa-pencil {
-//       border-left: solid 1px white;
-//       color: white;
-//     }
-//   }
-//   &:hover {
-//     background: #FCFED5;
-//     .options {
-//       .fa.fa-trash,
-//       .fa-caret-up,
-//       .fa-caret-down,
-//       .fa-pencil {
-//         border-left: solid 1px lightgray;
-//         color: lightgray;
-//       }
-//     }
-//   }
-//   &:last-of-type {
-//     border-radius: 0px 0px 15px 15px;
-//     -moz-border-radius: 0px 0px 15px 15px;
-//     -webkit-border-radius: 0px 0px 15px 15px;
-//     border: 1px solid #ACACAC;
-//   }
-// }
-//
-// .task.completed {
-//   background: rgba(221, 221, 221, 0.84);
-//   text-decoration: line-through;
-//   .fa.fa-trash {
-//     border-left: none;
-//     color: transparent;
-//   }
-//   &:hover {
-//     .fa.fa-trash {
-//       color: white;
-//     }
-//   }
-// }
-//
-// div.modal-content {
-//   padding: 20px;
-//   display: block;
-//   z-index: -1;
-// }
-//
-// button.close {
-//   position: absolute;
-//   top: 20px;
-//   right: 20px;
-// }
-//
-// .submit_form {
-//   margin: 20px auto;
-//   display: block;
-// }
-//
-// a.btn.btn-primary.btn-lg {
-//   margin: 0 auto;
-//   display: block;
-//   width: 150px;
-// }
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
