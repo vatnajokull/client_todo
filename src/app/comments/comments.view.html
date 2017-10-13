@@ -19,23 +19,18 @@
           <form ng-submit="vm.createComment(newCommentForm)" role="form" name="newCommentForm" >
             <div class="textarea">
               <md-input-container class="md-block">
-                <textarea ng-model="newCommentForm.body" minlength="10" md-maxlength="256" maxlength="256" rows="3" md-select-on-focus placeholder="Enter Your Comment"></textarea>
+                <textarea ng-model="newCommentForm.body" minlength="10" md-maxlength="256" maxlength="256" rows="3" md-select-on-focus placeholder="Enter Your Comment" required></textarea>
+                <div ng-messages="newCommentForm.body.$error">
+                  <div ng-message="required">This is required!</div>
+                </div>
               </md-input-container>              
+              <div class="attachment-icon">
+                <input class="ng-hide" type="file" ngf-select="vm.attachFile($file, $invalidFiles)" id="uploaderInput" accept="image/*" ngf-max-size="10MB"" />
+                <label for="uploaderInput">
+                  <i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>
+                </label>               
+              </div>
             </div>            
-            <div class="attachment-icon">
-              <input class="ng-hide" type="file" ngf-select="vm.attachFile($file, $invalidFiles)" id="uploaderInput" accept="image/*" ngf-max-size="10MB"" />
-              <label for="uploaderInput">
-                <i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>
-              </label> 
-              <!-- File:
-              <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
-                  <span class="progress" ng-show="f.progress >= 0">
-                      <div style="width:{{f.progress}}%"  
-                           ng-bind="f.progress + '%'"></div>
-                  </span>
-              </div>                   -->
-              
-            </div>
            <div class="action-buttons">
              <md-button type="submit" name="button" class="md-raised md-primary">Save</md-button>
              <md-button type="button" ng-click="vm.cancel()">Cancel</md-button>

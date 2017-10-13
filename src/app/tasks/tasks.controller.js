@@ -37,13 +37,11 @@ angular
 
     function editTask (task) {
       console.log('in editedTask');
-      vm.editedTask = angular.copy(task);
-      console.log(vm.editedTask);
+      vm.editedTask = angular.copy(task);      
     }
 
     function updateTask (task, title) {
-      console.log('in task update');
-      console.log('title is: ' + title);
+      console.log('in task update');      
       task.title =  title;
       task.update().then(function () {
         cancelEdit();
@@ -52,7 +50,6 @@ angular
 
     function cancelEdit () {
       console.log('in task cancelEdit');
-
       vm.editedTask = null;
     }
 
@@ -64,8 +61,7 @@ angular
       })
         .then(function (date) {
           task.deadline = date;
-          task.update();
-          // console.log('New Date / Time selected:', date);
+          task.update();          
         }, function() {
           console.log('Selection canceled');
         });
@@ -104,8 +100,8 @@ angular
         targetEvent: ev,
         clickOutsideToClose:true
       })
-      .then(function() {
-      }, function(commentsCount) {
+      .then(function(commentsCount) {        
+      }, function(commentsCount) {        
         task.commentsCount = commentsCount
       });
     }
@@ -194,27 +190,5 @@ angular
       }).then(function (tasks){
         $scope.tasks = tasks;
       });
-    }
-
-    // function editTaskModal (task) {
-    //   var modalInstance = $uibModal.open({
-    //     templateUrl: "app/tasks/edit_task.template.html",
-    //     controller: 'TaskModalInstanceController',
-    //     controllerAs: 'editTaskCtrl',
-    //     resolve: {
-    //       editedTask: function () {
-    //         return task;
-    //       }
-    //     }
-    //   });
-    //
-    //   modalInstance.result.then(function (double) {
-    //     task.title = double.title
-    //     task.deadline = double.deadline
-    //     updateTask(task);
-    //   }, function () {
-    //     // failure, for instance show alert, 'cancel' function
-    //   });
-    // }
-
+    }    
   }

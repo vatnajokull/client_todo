@@ -8,7 +8,8 @@
       var vm = this;
       vm.newList = {};
       vm.editedList = null;
-            
+
+      vm.getLists = getLists;            
       vm.createList = createList;
       vm.resetForm = resetForm;
       vm.showAlertRemoveList = showAlertRemoveList;
@@ -42,28 +43,29 @@
 
       function resetForm(form) {        
         console.log('in resetForm');
-        $scope.showButtons = false;
-        vm.newList = {};        
+        form.listName.$setValidity('required', true)
         form.$setUntouched();
-        form.$setPristine();
-        form.listName = ''        
+        form.$setPristine();               
+        $scope.showButtons = false;
+        vm.newList = null;     
       }
 
       function editList (list) {
         vm.editedList = angular.copy(list);
       }
 
-      function updateList (list, name) {
+      function updateList (list, name, form) {
         console.log('in update');
         list.name = name;
         list.update().then(function () {
-          cancelEdit();
+          cancelEdit(form);
         });
       }
 
-      function cancelEdit () {
+      function cancelEdit (form) {
         console.log('in cancelEdit');
-
+        form.$setUntouched();
+        form.$setPristine();
         vm.editedList = null;
       }
 
@@ -91,12 +93,12 @@
         });
       };
 
-      var list_query = function(){
-        console.log('in list_query function');
+      function getLists() {
+        console.log('in getLists function');
         List.query().then(function(lists){
           $scope.lists = lists;
         });
-      };
+      }
 
       // when the user logs in, fetch the posts
       // $rootScope.$on('auth:login-success', function(ev, user) {
@@ -104,7 +106,7 @@
       // });
 
       // will get a "401 Unauthorized" if the user is not authenticated
-      list_query();
+      // list_query();
     });
 
 })();

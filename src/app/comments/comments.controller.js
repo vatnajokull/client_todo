@@ -2,7 +2,7 @@ angular
   .module('clientTodo')
   .controller('CommentsController', CommentsController);
 
-  function CommentsController($scope, Comment, $mdDialog, passedTask, Upload) {
+  function CommentsController($scope, Comment, $mdDialog, passedTask, Upload, $mdToast) {
     var vm = this;
 
     var task = passedTask
@@ -19,6 +19,8 @@ angular
     vm.attachFile = attachFile;
 
     function cancel() {
+      console.log('in cancel');
+      console.log('count: ' + commentsCount);
       $mdDialog.cancel(commentsCount);
     }
 
@@ -36,44 +38,44 @@ angular
         $scope.comments.push(createdComment);
       });    
     }
-      
 
-      // console.log('usual flow for creating comment');
-      // var comment = new Comment({
-      //   listId: task.listId,
-      //   taskId: task.id,
-      //   body: form.body        
-      // });
-      // comment.create().then(function(createdComment) {
-      //   resetForm(form)
-      //   commentsCount++
-      //   $scope.comments.push(createdComment);
-      // });    
+    function showError(errorDescription) {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent(errorDescription)
+          .position('top right' )
+          .hideDelay(1500)
+      );      
+    }
 
     function attachFile(file, errFiles) {            
-      console.log('tried to upload file');      
-      $scope.f = file;
-      $scope.errFile = errFiles && errFiles[0];
-
+      console.log('tried to upload file');            
+            
       if (file) {
-        vm.progressBar.upload = true;
-        Upload.dataUrl(file, true).then(function(url) {               
+        uploadImageToServer(file);        
+      } else if (errFiles[0] && errFiles[0].$error === 'maxSize') {
+        showError("An uploaded file is too large. The size shouldn’t exceed 10 MB.")
+      }
+     }
+
+    function uploadImageToServer(file) {
+      vm.progressBar.upload = true;
+      Upload.dataUrl(file, true).then(function(url) {               
           
-          var comment = new Comment({
-            listId: task.listId,
-            taskId: task.id,
-            attachment: url
-          });          
-        
-          comment.create().then(function(createdComment) { 
+        var comment = new Comment({
+          listId: task.listId,
+          taskId: task.id,
+          attachment: url
+        });          
+          
+        comment.create().then(function(createdComment) { 
           console.log('image was uploaded');         
           commentsCount++
           $scope.comments.push(createdComment);
           vm.progressBar.upload = false;
-          });    
-        })
-      }
-     }
+        });    
+      })       
+    }
 
     function resetForm(form) {
       console.log('in resetForm comment');
