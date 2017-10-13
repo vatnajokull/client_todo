@@ -8,10 +8,8 @@ angular
     var task = passedTask
     var commentsCount = passedTask.commentsCount
 
-    vm.progressBar = {
-      show: true
-    };
-
+    vm.progressBar = {};
+      
     vm.cancel = cancel;
     vm.getComments = getComments;
     vm.queryComment = queryComment;
@@ -24,28 +22,21 @@ angular
       $mdDialog.cancel(commentsCount);
     }
 
-    function createComment(form) {
-      console.log('tried to upload file');      
-      base64File = ''
-      Upload.dataUrl(form.attachment, true).then(function(url)
-        {
-          // console.log('this is url ' + url);          
-          var comment = new Comment({
-            listId: task.listId,
-            taskId: task.id,
-            body: form.body,
-            attachment: url
-          });          
-          comment.create();
-        })
-      // form.attachment.upload = Upload.upload({        
-      //   url: '/api/lists/' + task.listId + '/tasks/' + task.id + '/comments',
-      //   data: { 
-      //     comment: {
-      //       attachment: form.attachment 
-      //     }
-      //   }
-      // });
+    function createComment(form) {      
+      console.log('simple create comment');
+      var comment = new Comment({
+        listId: task.listId,
+        taskId: task.id,
+        body: form.body        
+      });
+      
+      comment.create().then(function(createdComment) {
+        resetForm(form)
+        commentsCount++
+        $scope.comments.push(createdComment);
+      });    
+    }
+      
 
       // console.log('usual flow for creating comment');
       // var comment = new Comment({
@@ -57,14 +48,32 @@ angular
       //   resetForm(form)
       //   commentsCount++
       //   $scope.comments.push(createdComment);
-      // });
-    }
+      // });    
 
-    function attachFile(form) {
-      console.log('attachFile function in development');
-      console.log(form.attachment);
+    function attachFile(file, errFiles) {            
+      console.log('tried to upload file');      
+      $scope.f = file;
+      $scope.errFile = errFiles && errFiles[0];
 
-    }
+      if (file) {
+        vm.progressBar.upload = true;
+        Upload.dataUrl(file, true).then(function(url) {               
+          
+          var comment = new Comment({
+            listId: task.listId,
+            taskId: task.id,
+            attachment: url
+          });          
+        
+          comment.create().then(function(createdComment) { 
+          console.log('image was uploaded');         
+          commentsCount++
+          $scope.comments.push(createdComment);
+          vm.progressBar.upload = false;
+          });    
+        })
+      }
+     }
 
     function resetForm(form) {
       console.log('in resetForm comment');
@@ -91,13 +100,14 @@ angular
 
     function queryComment(task) {
       console.log('! in queryComment');
+      vm.progressBar.load = true;
       $scope.comments = []
       var comments = Comment.get({
         listId: task.listId,
         taskId: task.id
       }).then(function (comments) {
         $scope.comments = comments;
-        vm.progressBar.show = false;
+        vm.progressBar.load = false;
       });
     }
 

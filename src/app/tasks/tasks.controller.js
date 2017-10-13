@@ -2,7 +2,7 @@ angular
   .module('clientTodo')
   .controller('TasksController', TasksController);
 
-  function TasksController($scope, Task, $mdDialog, mdcDateTimeDialog) {
+  function TasksController($scope, Task, $mdDialog, mdcDateTimeDialog, $filter, $mdToast) {
     var vm = this;
 
     vm.editedTask = null;
@@ -19,10 +19,21 @@ angular
     vm.setDeadline = setDeadline;
     vm.showAlertRemoveTask = showAlertRemoveTask;
     vm.getDeadlineClass = getDeadlineClass;
-    vm.setDeadline = setDeadline;
     vm.editTask = editTask;
     vm.updateTask = updateTask;
     vm.cancelEdit = cancelEdit;
+
+    function allTasksCompleted() {
+      var uncompletedTasks = $filter('filter')($scope.tasks, {'completed':false})
+      if (uncompletedTasks.length === 0) {
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent("Well Done! You’re successfully completed all the task.")
+            .position('top right' )
+            .hideDelay(1500)
+        );  
+      }      
+    }
 
     function editTask (task) {
       console.log('in editedTask');
@@ -107,12 +118,14 @@ angular
       }
     }
 
-    function removeTask (task) {
+    function removeTask(task) {
       var index = $scope.tasks.indexOf(task);
       if (index > -1) {
         $scope.tasks.splice(index, 1);
       }
-      task.delete();
+      task.delete().then(function() {
+        allTasksCompleted();
+      });
     }
 
     function showAlertRemoveTask(task, ev) {
@@ -131,10 +144,12 @@ angular
       });
     };
 
-    function toggleCompleted (task) {
+    function toggleCompleted (task) {      
       Task.toggleCompleted(task).then(function(returnedTasks){
         $scope.tasks = angular.copy(returnedTasks);
-      });
+      }).then(function() {
+        allTasksCompleted();
+      })
     }
 
     function changePosition (task, direction) {

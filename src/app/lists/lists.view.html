@@ -43,7 +43,7 @@
                 <span ng-if="task.deadline" class="task-deadline" ng-class="tasksCtrl.getDeadlineClass(task)">{{task.deadline | date : 'dd/MM/yyyy H:mm'}}</span>
               </div>
               <div class="task-options">
-                <span ng-if="task.commentsCount" class="comments-count">{{task.commentsCount}}</span>
+                <span ng-if="task.commentsCount && !task.completed" class="comments-count">{{task.commentsCount}}</span>
                 <a ng-click="tasksCtrl.showComments($event, task)" href="javascript:void(0)" ng-if="!task.completed">
                   <i class="fa fa-comment" aria-hidden="true"></i>
                 </a>
