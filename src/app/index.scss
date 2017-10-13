@@ -64,18 +64,6 @@ body {
   margin: 0 auto;
 }
 
-// .list-wrapper {
-//   .fa {
-//     color: transparent;
-//   };
-//   &:hover{
-//     background-color: $hover-background;
-//     .fa {
-//       color: $todo-grey;
-//     }
-//   }
-// }
-
 .without-paddings {
   padding: 0 !important;
 }
@@ -130,11 +118,19 @@ body {
     .comments-count {
       color: black;
     }
+    .show-counter {
+      visibility: visible;
+    }
+    .hide-counter {
+      visibility: hidden;
+    }
   }
 }
 
 .completed {
-  text-decoration-line: line-through;
+  .task-title {
+    text-decoration-line: line-through;  
+  }  
   .hidden-icon {
     display: none;
   }
@@ -175,10 +171,10 @@ body {
   margin-bottom: auto;
   font-size: 7pt;
   &.past {
-    color: #a75e5e;
+    color: #9c4848;
   }
   &.future {
-    color: #98bdab;
+    color: #508e70;
   }
 }
 
@@ -226,8 +222,20 @@ body {
 }
 
 .error {
-  background: red;
+  color: red;
+  font-size: 10pt;
 }
+
+.delete-attachment {
+  position: absolute;
+  margin-left: 5px;
+  margin-top: -20px;
+}
+
+.thumb {
+  width: 250px;
+}
+
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject

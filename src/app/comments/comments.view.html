@@ -16,20 +16,28 @@
       <div class="comments-wrapper" ng-cloak="">
         <!-- Add new comment form -->
         <div class="add-new-comment">
-          <form ng-submit="vm.createComment(newCommentForm)" role="form" name="newCommentForm" >
+          <form ng-submit="vm.newCommentResolver(vm.newComment, commentForm)" role="form" name="commentForm" >
             <div class="textarea">
               <md-input-container class="md-block">
-                <textarea ng-model="newCommentForm.body" minlength="10" md-maxlength="256" maxlength="256" rows="3" md-select-on-focus placeholder="Enter Your Comment" required></textarea>
-                <div ng-messages="newCommentForm.body.$error">
+                <textarea ng-model="vm.newComment.body" name="body" minlength="10" md-maxlength="256" maxlength="256" rows="3" md-select-on-focus placeholder="Enter Your Comment" required></textarea>
+                <div ng-messages="commentForm.body.$error">
                   <div ng-message="required">This is required!</div>
                 </div>
               </md-input-container>              
               <div class="attachment-icon">
-                <input class="ng-hide" type="file" ngf-select="vm.attachFile($file, $invalidFiles)" id="uploaderInput" accept="image/*" ngf-max-size="10MB"" />
+                <input class="ng-hide" type="file" ngf-select ng-model="vm.newComment.attachment" id="uploaderInput" name="attachment" accept="image/jpeg,image/png" ngf-max-size="10MB" ngf-model-invalid="errorFile" />                 
                 <label for="uploaderInput">
                   <i class="fa fa-paperclip fa-lg" aria-hidden="true"></i>
                 </label>               
               </div>
+              <!-- image preview -->
+              <i class="error" ng-show="commentForm.attachment.$error.maxSize">An uploaded file is too large. The size shouldn’t exceed 10 MB.</i>
+              <div ng-show="vm.newComment.attachment" class="image-preview">
+                <img ng-show="commentForm.attachment.$valid" ngf-thumbnail="vm.newComment.attachment" class="thumb">
+                <a class="delete-attachment" href="">                
+                  <i ng-click="vm.newComment.attachment = null" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                </a>                
+              </div>              
             </div>            
            <div class="action-buttons">
              <md-button type="submit" name="button" class="md-raised md-primary">Save</md-button>
@@ -43,7 +51,7 @@
         <div ng-show="vm.progressBar.load || vm.progressBar.upload" layout="row" layout-sm="column" layout-align="space-around">
           <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         </div>
-        <div ng-hide="vm.progressBar.load" class="comment" ng-repeat="comment in comments">
+        <div ng-hide="vm.progressBar.load" class="comment" ng-repeat="comment in vm.comments">
           <div class="comment-header">
             <span class="comment-created-at">{{comment.createdAt | date : 'MM/dd/yyyy'}}</span>
             <a ng-click="vm.removeComment(comment)" href="javascript:void(0)">
@@ -51,8 +59,10 @@
             </a>
           </div>
           <div class="comment-body">
-            {{comment.body}}
-            <a ng-hide="comment.attachment.url === null" href="{{comment.attachment.url}}" target="_blank">
+            {{comment.body}}            
+          </div>          
+          <div class="comment-attachment" ng-hide="comment.attachment.url === null">
+            <a href="{{comment.attachment.url}}" target="_blank">
               <img ng-src="{{comment.attachment.thumb.url}}">  
             </a>            
           </div>          

@@ -3,21 +3,27 @@ angular
   .controller('LoginController', LoginController)
 
   function LoginController ($rootScope, $auth, $location, $cookies, $mdToast) {
-    var vm = this;
-    var loginError = '';
+    var vm = this;   
 
-    $rootScope.$on('auth:login-success', function(ev, user) {
+    function showNotification(textNotification) {
       $mdToast.show(
         $mdToast.simple()
-          .textContent('Welcome back ' + user.email)
+          .textContent(textNotification)
           .position('top right' )
           .hideDelay(1500)
       );
+    }
+
+    $rootScope.$on('auth:login-success', function(ev, user) {
+      showNotification('Welcome back ' + user.email)
       $location.path('/lists')
     });
 
     $rootScope.$on('auth:login-error', function(ev, reason) {
-      vm.loginError = reason.errors[0];
+      console.log('auth login-error');
+      angular.forEach(reason.errors, function(value, index) {
+        showNotification(value)  
+      })      
     });
 
     function checkUser() {

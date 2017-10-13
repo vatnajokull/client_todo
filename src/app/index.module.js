@@ -5,7 +5,6 @@
     .module('clientTodo', [
       'ngAnimate',
       'ngCookies',
-      'ngTouch',
       'ngSanitize',
       'ngMessages',
       'ngMaterial',
