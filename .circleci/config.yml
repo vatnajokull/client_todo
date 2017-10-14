@@ -15,6 +15,6 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run:
-          name: run tests!
-          command: gulp jasmine
+      # - run:
+      #     name: run tests!
+      #     command: gulp jasmine
