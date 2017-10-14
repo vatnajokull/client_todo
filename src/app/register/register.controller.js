@@ -3,7 +3,6 @@ angular
   .controller('RegisterController', RegisterController)
 
   function RegisterController ($rootScope, $scope, $auth, $location, $mdToast) {
-    var vm = this;
 
     $scope.handleRegBtnClick = function() {
       $auth.submitRegistration($scope.registrationForm)
@@ -15,7 +14,7 @@ angular
         });
     };
 
-    function showNotification(textNotification) {      
+    function showNotification(textNotification) {
       $mdToast.show(
         $mdToast.simple()
           .textContent(textNotification)
@@ -30,9 +29,8 @@ angular
     });
 
     $scope.$on('auth:registration-email-error', function(ev, reason) {
-      console.log('auth:registration-email-error');
       angular.forEach(reason.errors.full_messages, function(value, index) {
         showNotification(value)
-      })       
+      })
     });
   }

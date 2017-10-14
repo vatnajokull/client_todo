@@ -3,7 +3,7 @@ angular
   .controller('LoginController', LoginController)
 
   function LoginController ($rootScope, $auth, $location, $cookies, $mdToast) {
-    var vm = this;   
+    var vm = this;
 
     function showNotification(textNotification) {
       $mdToast.show(
@@ -20,14 +20,13 @@ angular
     });
 
     $rootScope.$on('auth:login-error', function(ev, reason) {
-      console.log('auth login-error');
       angular.forEach(reason.errors, function(value, index) {
-        showNotification(value)  
-      })      
+        showNotification(value)
+      })
     });
 
     function checkUser() {
-      if (!!$cookies.get('auth_headers')) {        
+      if (!!$cookies.get('auth_headers')) {
         $location.path('/lists');
       } else {
         $location.path('/login');

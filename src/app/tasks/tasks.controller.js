@@ -9,19 +9,18 @@ angular
 
     vm.createTask = createTask;
     vm.getTasks = getTasks;
-    vm.removeTask = removeTask;
     vm.queryTask = queryTask;
+    vm.editTask = editTask;
+    vm.cancelEdit = cancelEdit;
     vm.updateTask = updateTask;
     vm.changePosition = changePosition;
     vm.toggleCompleted = toggleCompleted;
+    vm.removeTask = removeTask;
     vm.resetForm = resetForm;
     vm.showComments = showComments;
     vm.setDeadline = setDeadline;
     vm.showAlertRemoveTask = showAlertRemoveTask;
     vm.getDeadlineClass = getDeadlineClass;
-    vm.editTask = editTask;
-    vm.updateTask = updateTask;
-    vm.cancelEdit = cancelEdit;
 
     function allTasksCompleted() {
       var uncompletedTasks = $filter('filter')($scope.tasks, {'completed':false})
@@ -31,17 +30,15 @@ angular
             .textContent("Well Done! You’re successfully completed all the task.")
             .position('top right' )
             .hideDelay(1500)
-        );  
-      }      
+        );
+      }
     }
 
     function editTask (task) {
-      console.log('in editedTask');
-      vm.editedTask = angular.copy(task);      
+      vm.editedTask = angular.copy(task);
     }
 
     function updateTask (task, title) {
-      console.log('in task update');      
       task.title =  title;
       task.update().then(function () {
         cancelEdit();
@@ -49,7 +46,6 @@ angular
     }
 
     function cancelEdit () {
-      console.log('in task cancelEdit');
       vm.editedTask = null;
     }
 
@@ -61,9 +57,8 @@ angular
       })
         .then(function (date) {
           task.deadline = date;
-          task.update();          
+          task.update();
         }, function() {
-          console.log('Selection canceled');
         });
     };
 
@@ -79,7 +74,6 @@ angular
     }
 
     function resetForm (form) {
-      console.log('in task reset form');
       $scope.showButtonsTask = false;
       form.$setUntouched();
       form.$setPristine();
@@ -87,8 +81,6 @@ angular
     }
 
     function showComments (ev, task) {
-      console.log('showComments');
-      console.log('comments for task id: ' + task.id);
       $mdDialog.show({
         locals: {
           passedTask: task
@@ -100,8 +92,8 @@ angular
         targetEvent: ev,
         clickOutsideToClose:true
       })
-      .then(function(commentsCount) {        
-      }, function(commentsCount) {        
+      .then(function(commentsCount) {
+      }, function(commentsCount) {
         task.commentsCount = commentsCount
       });
     }
@@ -140,7 +132,7 @@ angular
       });
     };
 
-    function toggleCompleted (task) {      
+    function toggleCompleted (task) {
       Task.toggleCompleted(task).then(function(returnedTasks){
         $scope.tasks = angular.copy(returnedTasks);
       }).then(function() {
@@ -149,7 +141,6 @@ angular
     }
 
     function changePosition (task, direction) {
-      console.log('in changePosition');
       if (!rulesForBreakingRequest(task, direction)) {
         Task.changePosition(task, direction).then(function (returnedTasks) {
           $scope.tasks = angular.copy(returnedTasks);
@@ -171,7 +162,6 @@ angular
     }
 
     var tasks_query = function (listId) {
-      console.log("I am a #tasks_query");
       Task.query({
         listId: listId
       }).then(function (tasks){
@@ -180,7 +170,6 @@ angular
     };
 
     function getTasks (listId) {
-      console.log("--> getTasks from list " + listId);
       queryTask (listId);
     }
 
@@ -190,5 +179,5 @@ angular
       }).then(function (tasks){
         $scope.tasks = tasks;
       });
-    }    
+    }
   }

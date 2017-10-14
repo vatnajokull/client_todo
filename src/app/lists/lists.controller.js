@@ -3,13 +3,13 @@
 
   angular
     .module('clientTodo')
-    .controller('ListsController', function($rootScope, $scope, List, $mdDialog, $mdExpansionPanel, $mdToast) {
+    .controller('ListsController', function($scope, List, $mdDialog, $mdToast) {
 
       var vm = this;
       vm.newList = {};
       vm.editedList = null;
 
-      vm.getLists = getLists;            
+      vm.getLists = getLists;
       vm.createList = createList;
       vm.resetForm = resetForm;
       vm.showAlertRemoveList = showAlertRemoveList;
@@ -18,18 +18,17 @@
       vm.cancelEdit = cancelEdit;
 
       function createList(newList, form) {
-         console.log('-> triggered createList');
         if (form.$valid) {
           var list = new List({
             name: newList.name
           });
           list.create().then(function(){
             $scope.lists.push(list);
-            resetForm(form);                        
+            resetForm(form);
           }, function(response){
             showServerValidationErrors(response);
           })
-        }       
+        }
       }
 
       function showServerValidationErrors(response) {
@@ -38,16 +37,15 @@
             .textContent('This name ' + response.data.name[0])
             .position('top right' )
             .hideDelay(1500)
-          );                   
+          );
         }
 
-      function resetForm(form) {        
-        console.log('in resetForm');
+      function resetForm(form) {
         form.listName.$setValidity('required', true)
         form.$setUntouched();
-        form.$setPristine();               
+        form.$setPristine();
         $scope.showButtons = false;
-        vm.newList = null;     
+        vm.newList = null;
       }
 
       function editList (list) {
@@ -55,7 +53,6 @@
       }
 
       function updateList (list, name, form) {
-        console.log('in update');
         list.name = name;
         list.update().then(function () {
           cancelEdit(form);
@@ -63,7 +60,6 @@
       }
 
       function cancelEdit (form) {
-        console.log('in cancelEdit');
         form.$setUntouched();
         form.$setPristine();
         vm.editedList = null;
@@ -94,19 +90,10 @@
       };
 
       function getLists() {
-        console.log('in getLists function');
         List.query().then(function(lists){
           $scope.lists = lists;
         });
       }
-
-      // when the user logs in, fetch the posts
-      // $rootScope.$on('auth:login-success', function(ev, user) {
-      //   list_query();
-      // });
-
-      // will get a "401 Unauthorized" if the user is not authenticated
-      // list_query();
     });
 
 })();

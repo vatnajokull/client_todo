@@ -32,7 +32,7 @@
       };
 
       $rootScope.$on('auth:logout-success', function(ev) {
-        $location.path('/')
+        $location.path('/login')
       });
     }
   }
