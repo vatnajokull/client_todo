@@ -1,5 +1,5 @@
 {
-  "name": "clientTodo",
+  "name": "client_todo",
   "version": "0.0.0",
   "dependencies": {
     "array.prototype.move": "0.0.4",
