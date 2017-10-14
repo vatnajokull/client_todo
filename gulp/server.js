@@ -1,15 +1,16 @@
 'use strict';
+require('dotenv').config();
 
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
-
 var browserSync = require('browser-sync');
 var browserSyncSpa = require('browser-sync-spa');
 
 var util = require('util');
 
 var proxyMiddleware = require('http-proxy-middleware');
+
 
 function browserSyncInit(baseDir, browser) {
   browser = browser === undefined ? 'default' : browser;
@@ -26,25 +27,28 @@ function browserSyncInit(baseDir, browser) {
     routes: routes
   };
 
-  /*
-   * You can add a proxy to your backend by uncommenting the line below.
-   * You just have to configure a context which will we redirected and the target url.
-   * Example: $http.get('/users') requests will be automatically proxified.
-   *
-   * For more details and option, https://github.com/chimurai/http-proxy-middleware/blob/v0.9.0/README.md
-   */
-  // server.middleware = proxyMiddleware('/users', {target: 'http://jsonplaceholder.typicode.com', changeOrigin: true});
+  server.middleware = proxyMiddleware('/api', {target: process.env.API_URL, changeOrigin: true});
 
   browserSync.instance = browserSync.init({
     startPath: '/',
     server: server,
-    browser: browser
+    port: process.env.PORT,
+    browser: browser,
+    ghostMode: {
+        clicks: false,
+        forms: false,
+        scroll: false
+    }
   });
 }
 
 browserSync.use(browserSyncSpa({
   selector: '[ng-app]'// Only needed for angular apps
 }));
+
+gulp.task('production', ['watch'], function () {
+  expressInit([path.join(conf.paths.tmp, '/serve'), conf.paths.src]);
+});
 
 gulp.task('serve', ['watch'], function () {
   browserSyncInit([path.join(conf.paths.tmp, '/serve'), conf.paths.src]);

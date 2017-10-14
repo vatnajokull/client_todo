@@ -1,0 +1,64 @@
+<div class="container">
+  <!-- show lists data -->
+  <div class="list-wrapper">
+    <!-- show certain list data -->
+    <div ng-repeat="list in lists" ng-if="user.signedIn" class="list" id="{{list.id}}">
+      <div class="header">
+        <div class="title">
+          <i class="fa fa-list-alt" aria-hidden="true"></i>
+          <h3>{{ list.name }}</h3>
+        </div>
+        <div class="options">
+          <a ng-click="open(list)" href="javascript:void(0)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </a>
+          <a ng-click="removeList(list)" href="javascript:void(0)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <div class="tasks_wrapper" ng-controller="TasksController as tasksCtrl" ng-if="list.id">
+        <!-- form for add new tasks to list -->
+        <div class="task_form" id={{list.id}}>
+          <form ng-submit="tasksCtrl.createTask(newTaskForm)" role="form" ng-init="newTaskForm = {listId: list.id}">
+            <i class="fa fa-plus"></i>
+            <input type="text" id="title"  class="form-control" ng-model="newTaskForm.title" placeholder="Start typing here to create a task…" name="taskTitle" required>
+            <button ng-click="tasksCtrl.createTask(newTaskForm)" class="btn btn-success add_new_task" type="button" name="button">Add Task</button>
+          </form>
+        </div>
+        <!-- list of tasks -->
+        <div class="tasks" id={{list.id}} ng-init="tasks = tasksCtrl.getTasks(list.id)" >
+          <div class="task" ng-repeat="task in tasks | orderBy:'completed'" ng-class="task.completed ? 'completed' : 'active'">
+            <div class="checkbox">
+              <input type="checkbox" ng-model="task.completed" ng-click="tasksCtrl.toggleCompleted(task)">
+            </div>
+            <div class="info">
+              {{task.title}}
+              <span ng-if="task.deadline">{{task.deadline | date : fullDate}}</span>
+            </div>
+            <div class="options">
+              <a ng-click="tasksCtrl.changePosition(task, 'up')" href="javascript:void(0)" ng-if="!task.completed">
+                <i class="fa fa-caret-up" aria-hidden="true"></i>
+              </a>
+              <a ng-click="tasksCtrl.changePosition(task, 'down')" href="javascript:void(0)" ng-if="!task.completed">
+                <i class="fa fa-caret-down" aria-hidden="true"></i>
+              </a>
+              <a ng-click="tasksCtrl.editTaskModal(task)" href="javascript:void(0)" ng-if="!task.completed">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </a>
+              <a ng-click="tasksCtrl.removeTask(task)" href="javascript:void(0)">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <p ng-if="!user.signedIn">You must be signed in to request lists</p>
+  </div>
+  </div>
+
+  <div class="links">
+    <a ng-click="newListModal();" href="javascript:void(0)" class="btn add-todo-list">
+      <i class="fa fa-plus add-todo"></i>
+      Add TODO List</a>
+  </div>

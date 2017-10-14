@@ -4,6 +4,8 @@
  */
 $navbar-inverse-link-color: #5AADBB;
 $icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
+// $icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
+
 
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject
@@ -12,20 +14,228 @@ $icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
 // bower:scss
 // endbower
 
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
+$todo-grey: #959595;
+$hover-background: #f6f6f6 !important;
+$opened-list-header: #e1e7f3 !important;
+
+@mixin options {
+  font-size: 14pt;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: auto;
 }
 
-.thumbnail {
-  height: 200px;
+html {
+  min-height: 100%;
+}
 
-  img.pull-right {
-    width: 50px;
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  height: auto;
+  width: 100%;
+  min-height: 100%;
+  .loading {
+    overflow: hidden;
   }
 }
+
+.auth-forms {
+  max-width: 350px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-top: 60px;
+}
+
+.form-title {
+  font-size: x-large;
+  font-weight: 600;
+}
+
+.form-description {
+  font-weight: 200;
+  margin-top: 10px;
+}
+
+.lists {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.without-paddings {
+  padding: 0 !important;
+}
+
+.md-expansion-panel-header-container {
+  background-color: $opened-list-header
+}
+
+
+.collapsed-list {
+  .fa {
+    color: transparent;
+  };
+  &:hover{
+    background-color: $hover-background;
+    .fa {
+      color: $todo-grey;      
+    }
+  }
+}
+
+.list-name {
+  font-size: 11pt;
+  color: $todo-grey;
+  font-weight: 800;
+}
+
+.list-options {
+  @include options;
+  width: 45px;
+  margin-right: 0px;  
+}
+
+.task {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  .comments-count {
+    display: block;
+    font-size: 10pt;
+    color: transparent;
+  }
+  .fa {
+    color: transparent;
+  };
+  &:hover{
+    background-color: $hover-background;
+    .fa {
+      color: $todo-grey;
+    }
+    .comments-count {
+      color: black;
+    }
+    .show-counter {
+      visibility: visible;
+    }
+    .hide-counter {
+      visibility: hidden;
+    }
+  }
+}
+
+.completed {
+  .task-title {
+    text-decoration-line: line-through;  
+  }  
+  .hidden-icon {
+    display: none;
+  }
+}
+
+.arrows {
+  position: absolute;
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;  
+  font-size: 8pt;
+}
+
+.task-checkbox {
+  position: absolute;  
+  margin-left: 40px;
+}
+
+.task-info {
+  position: absolute;
+  margin-left: 72px;
+  font-weight: 500;
+  color: $todo-grey;
+}
+
+.task-options {
+  @include options;
+  width: 120px;
+  margin-right: 15px;  
+}
+
+.task-form {
+  margin-left: 35px;
+}
+
+.task-deadline {
+  display: block;
+  margin-bottom: auto;
+  font-size: 7pt;
+  &.past {
+    color: #9c4848;
+  }
+  &.future {
+    color: #508e70;
+  }
+}
+
+.commments-popup {
+  width: 50%
+}
+
+.comment {
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.comment-header {
+  display: flex;
+  width: 80px;
+  align-items: baseline;
+  justify-content: space-between;  
+  .fa {
+    color: $todo-grey;
+    font-size: 12pt !important;
+  }
+}
+
+.comment-created-at {
+  display: block;
+  font-size: 9pt;
+  color: $todo-grey
+}
+
+.comment-body {
+  margin-top: 5px;
+  font-size: 11pt;
+}
+
+.attachment-icon {
+  position: relative;
+  z-index: 9999;  
+  float: right;
+  right: 15px;
+  bottom: 75px;  
+  .fa {
+    color: $todo-grey;
+    cursor: pointer;
+  }
+}
+
+.error {
+  color: red;
+  font-size: 10pt;
+}
+
+.delete-attachment {
+  position: absolute;
+  margin-left: 5px;
+  margin-top: -20px;
+}
+
+.thumb {
+  width: 250px;
+}
+
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject

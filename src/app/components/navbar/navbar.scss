@@ -2,16 +2,31 @@
   color: white;
 }
 
-a {
-  color: black;
+.header {
+  background: #e1e7f3;
+  display: flex;
+  justify-content: space-between;
+  height: 90px;
 }
 
-h1 {
-  font-size: 2em;
-  margin: 0;
-  line-height: 1.25em;
+.item {
+  align-self: center;
 }
 
-a:hover, a:focus {
-  color: greenyellow;
+.logo {
+  height: 50px;
+  margin-left: 50px;
+}
+
+.title {
+  font-size: 20pt;
+  font-weight: 600;
+}
+
+.log-out {
+  margin-right: 50px;
+}
+
+.fa-sign-out {
+  color: darkgrey;
 }

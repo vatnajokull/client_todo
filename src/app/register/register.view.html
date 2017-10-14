@@ -1,0 +1,22 @@
+<div class="auth-forms">
+  <span class="form-title">Sign Up</span>
+  <flash-message></flash-message>
+  <form ng-submit="submitRegistration(registrationForm)" role="form" name="registrationForm" method="post">
+    <md-input-container class="md-block" flex-gt-sm>
+      <label>Email</label>
+      <input type="email" ng-model="registrationForm.email" required autofocus>      
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-sm>
+      <label for="password">Password</label>
+      <input type="password" id="password" ng-model="registrationForm.password">
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-sm>
+      <label for="password">Password confirmation</label>
+      <input type="password" id="pwdConfirm" ng-model="registrationForm.password_confirmation">
+    </md-input-container>
+    <md-button type="submit" class="md-raised md-primary">Sign Up</md-button>
+    <p class="form-description">Already a member?
+      <a href="#/login">Sign In</a>
+    </p>
+  </form>
+</div>

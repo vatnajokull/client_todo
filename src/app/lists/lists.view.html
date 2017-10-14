@@ -1,0 +1,129 @@
+<div class="lists" ng-controller="ListsController as listsCtrl" ng-init=listsCtrl.getLists();>
+  <h3>Projects</h3>
+
+  <div class="list-wrapper" ng-repeat="list in lists" ng-cloak="">
+    <md-expansion-panel md-component-id="{{list.id}}">
+
+    <md-expansion-panel-collapsed class='collapsed-list'>
+      <md-expansion-panel-icon ng-click="$panel.expand()" class="flex-offset-0"></md-expansion-panel-icon>
+      <div class="list-name">{{list.name}}</div>
+      <div class="list-options">
+        <a ng-click="listsCtrl.editList(list); $event.stopPropagation()" href="javascript:void(0)">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </a>
+        <a ng-click="listsCtrl.showAlertRemoveList(list); $event.stopPropagation()" href="javascript:void(0)">
+          <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </a>
+      </div>
+    </md-expansion-panel-collapsed>
+
+    <md-expansion-panel-expanded>
+      <md-expansion-panel-header>
+        <md-expansion-panel-icon ng-click="$panel.collapse()" class="flex-offset-0"></md-expansion-panel-icon>
+        <div class="list-name">{{list.name}}</div>
+      </md-expansion-panel-header>
+
+      <md-expansion-panel-content ng-controller="TasksController as tasksCtrl" ng-if="list.id" class="without-paddings">
+        <div class="tasks" id={{list.id}} ng-init="tasks = tasksCtrl.getTasks(list.id)" >
+          <div class="task-wrapper" ng-repeat="task in tasks | orderBy:'completed'">
+            <div ng-hide="tasksCtrl.editedTask.id === task.id" class="task" ng-class="task.completed ? 'completed' : 'active'">
+              <div class="arrows">
+                <a ng-click="tasksCtrl.changePosition(task, 'up')" href="javascript:void(0)">
+                  <i class="fa fa-arrow-up hidden-icon" aria-hidden="true"></i>
+                </a>
+                <a ng-click="tasksCtrl.changePosition(task, 'down')" href="javascript:void(0)">
+                  <i class="fa fa-arrow-down hidden-icon" aria-hidden="true"></i>
+                </a>
+              </div>
+              <div class="task-checkbox">
+                <input type="checkbox" ng-model="task.completed" ng-click="tasksCtrl.toggleCompleted(task)">
+              </div>
+              <div class="task-info">
+                <span class="task-title">{{task.title}}</span>
+                <span ng-if="task.deadline" class="task-deadline" ng-class="tasksCtrl.getDeadlineClass(task)">{{task.deadline | date : 'dd/MM/yyyy H:mm'}}</span>
+              </div>
+              <!-- task-options -->
+              <div class="task-options">
+                <span class="comments-count hidden-icon" ng-class="task.commentsCount > 0 ? 'show-counter' : 'hide-counter'">{{task.commentsCount}}</span>
+                <a ng-click="tasksCtrl.showComments($event, task)" href="javascript:void(0)">
+                  <i class="fa fa-comment hidden-icon" aria-hidden="true"></i>
+                </a>
+                <a ng-click="tasksCtrl.setDeadline(task)" href="javascript:void(0)">
+                  <i class="fa fa-clock-o hidden-icon" aria-hidden="true"></i>
+                </a>
+                <a ng-click="tasksCtrl.editTask(task)" href="javascript:void(0)">
+                  <i class="fa fa-pencil hidden-icon" aria-hidden="true"></i>
+                </a>
+                <a ng-click="tasksCtrl.showAlertRemoveTask(task)" href="javascript:void(0)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <!-- form for edit task -->
+            <div ng-show="tasksCtrl.editedTask.id === task.id" class="task-form">
+              <form ng-submit="tasksCtrl.updateTask(task, tasksCtrl.editedTask.title)" name='editTaskForm' role="form">
+                <md-input-container md-no-float class="md-block">
+                  <input ng-model="tasksCtrl.editedTask.title" name="title" placeholder="Enter Task Name ..." required autofocus="true">
+                  <div ng-messages="editTaskForm.title.$error">
+                    <div ng-message="required">This is required!</div>
+                  </div>
+                </md-input-container>
+                <div class="action-buttons">
+                  <md-button type="submit" class="md-raised md-primary">Save</md-button>
+                  <md-button type="button" ng-click="tasksCtrl.cancelEdit()">Cancel</md-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- form for add new tasks to list -->
+          <div class="task-form" id={{list.id}}>
+            <form ng-submit="tasksCtrl.createTask(newTaskForm)" role="form" name="newTaskForm">
+              <md-input-container md-no-float class="md-block">
+              <input type="hidden" name="listId" ng-value="list.id">
+              <input ng-focus="showButtonsTask=true" type="text" ng-model="newTaskForm.title" placeholder="Enter Task Name ..." name="taskTitle" required>
+              <div ng-messages="newTaskForm.title.$error">
+                <div ng-message="required">This is required!</div>
+              </div>
+              </md-input-container>
+              <div class="action-buttons" ng-show="showButtonsTask" >
+                <md-button type="submit" name="button" class="md-raised md-primary">Add Task</md-button>
+                <md-button type="button" ng-click="tasksCtrl.resetForm(newTaskForm)">Cancel</md-button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </md-expansion-panel-content>
+
+    </md-expansion-panel-expanded>
+    </md-expansion-panel>
+
+
+    <div ng-show="listsCtrl.editedList.id === list.id" class="edit-wrapper">
+      <form ng-submit="listsCtrl.updateList(list, listsCtrl.editedList.name, editListForm)" name="editListForm" role="form">
+        <md-input-container md-no-float class="md-block">
+          <input ng-model="listsCtrl.editedList.name" name="name" placeholder="Enter List Name ..." required autofocus>          
+          <div ng-messages="editListForm.name.$error">
+            <div ng-message="required">Name is required</div>
+          </div>
+        </md-input-container>        
+        <md-button type="submit" class="md-raised md-primary">Save</md-button>
+          <md-button ng-click="listsCtrl.cancelEdit(editListForm)">Cancel</md-button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- add new list  -->  
+  <form ng-submit="listsCtrl.createList(listsCtrl.newList, form)" role="form" name="form">
+    <md-input-container md-no-float class="md-block">
+      <input ng-focus="showButtons=true" ng-model="listsCtrl.newList.name" name="listName" placeholder="Enter List Name ..." required>
+      <div ng-messages="form.listName.$error">
+        <div ng-message="required">Name is required</div>
+      </div>
+    </md-input-container>
+    <div class="action-buttons" ng-show="showButtons" >
+      <md-button type="submit" class="md-raised md-primary">Create Project</md-button>
+      <md-button type="button" ng-click="listsCtrl.resetForm(form)">Cancel</md-button>
+    </div>
+  </form>
+</div>

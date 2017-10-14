@@ -1,0 +1,17 @@
+<div class="auth-forms">
+  <span class="form-title">Sign In</span>
+  <form ng-submit="submitLogin(loginForm)" role="form" ng-init="loginForm = {}">
+    <md-input-container class="md-block" flex-gt-sm>
+      <label for="email">Email</label>
+      <input type="email" id="email" ng-model="loginForm.email" autofocus>
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-sm>
+      <label for="password">Password</label>
+      <input type="password" id="password" ng-model="loginForm.password">
+    </md-input-container>
+    <md-button type="submit" class="md-raised md-primary">Sign In</md-button>
+    <p class="form-description">Don't have an account?
+      <a href="#/register">Sign Up</a>
+    </p>
+  </form>
+</div>
