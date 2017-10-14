@@ -14,25 +14,24 @@ jobs:
 
     steps:
       - checkout
+      - run:
+        name: update-npm
+        command: 'sudo npm install -g npm@latest'
 
-      - run: npm install
-
-      # install bower
-      - run: sudo npm install -g bower
-
-      # Download and cache dependencies
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          key: dependency-cache-{{ checksum "package.json" }}
 
-      - run: bower install
+      - run:
+          name: install-npm-wee
+          command: npm install
 
       - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - ./node_modules
+
+      # install packages via bower
+      - run: bower install
 
       # run tests!
       - run: gulp jasmine
