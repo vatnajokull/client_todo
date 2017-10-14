@@ -18,7 +18,7 @@ jobs:
       - run: npm install
 
       # install bower
-      - run: npm install -g bower
+      - run: sudo npm install -g bower
 
       # Download and cache dependencies
       - restore_cache:
